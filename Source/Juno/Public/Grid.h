@@ -10,7 +10,7 @@ class FTile;
 class JUNO_API FGrid
 {
 public:
-	FGrid(const uint32 InRows, const uint32 InColumns);
+	explicit FGrid(const uint32 InRows = 8, const uint32 InColumns = 8);
 
 	uint32 GetRows() const;
 	uint32 GetColumns() const;

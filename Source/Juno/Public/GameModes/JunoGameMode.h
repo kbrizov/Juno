@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Simulation.h"
+#include "Commands/Command.h"
 #include "GameFramework/GameModeBase.h"
 #include "JunoGameMode.generated.h"
 
@@ -16,10 +18,25 @@ protected:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 private:
+	/**
+	 * This queue is the bridge between the "Simulation" and the "Visualization".
+	 * The "Simulation" writes to it.
+	 * The "Visualization" reads from it.
+	 */
+	TQueue<FCommand*> Commands;
+
+	FSimulation Simulation;
+
 	FTimerHandle FixedUpdateTimerHandle;
 
-	UPROPERTY(EditDefaultsOnly, meta=(UIMin = 1))
+	UPROPERTY(EditDefaultsOnly)
 	float TimeStepInSeconds = 0.1f; // 100 ms.
+
+	UPROPERTY(EditDefaultsOnly)
+	uint32 GridRows = 8;
+
+	UPROPERTY(EditDefaultsOnly)
+	uint32 GridColumns = 8;
 
 	void FixedUpdate();
 };

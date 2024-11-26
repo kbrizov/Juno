@@ -8,7 +8,7 @@
 class JUNO_API FPiece
 {
 public:
-	FPiece(const float InHealth, const float InDamage, const uint32 InMovementRange, const FTile& InPosition);
+	FPiece(const float InHealth = 1.f, const float InDamage = 1.f, const uint32 InMovementRange = 1.f, const FTile& InPosition = FTile(0,0));
 
 	float GetHealth() const;
 
