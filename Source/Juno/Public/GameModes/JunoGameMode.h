@@ -14,4 +14,12 @@ class JUNO_API AJunoGameMode : public AGameModeBase
 protected:
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
+private:
+	FTimerHandle FixedUpdateTimerHandle;
+
+	UPROPERTY(EditDefaultsOnly, meta=(UIMin = 1))
+	float TimeStepInSeconds = 0.1f; // 100 ms.
+
+	void FixedUpdate();
 };
