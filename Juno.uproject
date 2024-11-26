@@ -3,6 +3,16 @@
 	"EngineAssociation": "{D777EA9E-4459-3631-4F3B-E688FC207567}",
 	"Category": "",
 	"Description": "",
+	"Modules": [
+		{
+			"Name": "Juno",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		}
+	],
 	"Plugins": [
 		{
 			"Name": "ModelingToolsEditorMode",
