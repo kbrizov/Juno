@@ -26,11 +26,28 @@ private:
 	uint32 Columns;
 	TArray<TArray<FTile>> Tiles;
 
+	/**
+	 * Finds a path from Start to End by using A*.
+	 */
+	TArray<const FTile*> FindPath(const FTile& InStart, const FTile& InEnd, TFunction<float(const FTile&, const FTile&)> InDistanceHeuristic) const;
+
 	TArray<const FTile*> GetTileNeighbors(const FTile& InTile) const;
+
 	TArray<const FTile*> GetTileNeighbors(const uint32 InRow, const uint32 InColumn) const;
+
 	bool IsTileInRange(const uint32 InTileRow, const uint32 InTileColumn) const;
+
 	bool IsRowInRange(const uint32 InRow) const;
+
 	bool IsColumnInRange(const uint32 InColumn) const;
+
+	TMap<const FTile*, float> GetInitialCosts() const;
+
+	TArray<const FTile*> GetPathTo(const FTile& InEnd, const TMap<const FTile*, const FTile*>& InVisited) const;
+
+	float CalculateManhattanDistance(const FTile& A, const FTile& B) const;
+
+	float CalculateEuclideanDistance(const FTile& A, const FTile& B) const;
 };
 
 inline uint32 FGrid::GetRows() const
