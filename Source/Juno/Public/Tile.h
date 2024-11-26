@@ -9,8 +9,7 @@ class FPiece;
 class JUNO_API FTile
 {
 public:
-	FTile(const uint32 InRow, const uint32 InColumn, const float InWeight, TSharedPtr<FPiece> InPiece);
-	~FTile() = default;
+	FTile(const uint32 InRow, const uint32 InColumn, const float InWeight = 1.f, TSharedPtr<FPiece> InPiece = nullptr);
 
 	uint32 GetRow() const;
 
@@ -23,6 +22,7 @@ public:
 	void SetPiece(TSharedPtr<FPiece> InPiece);
 
 	void Clear();
+	FVector2D ToVector2D() const;
 
 	bool IsEmpty() const;
 

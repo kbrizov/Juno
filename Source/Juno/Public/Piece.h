@@ -9,7 +9,6 @@ class JUNO_API FPiece
 {
 public:
 	FPiece(const float InHealth, const float InDamage, const uint32 InMovementRange, const FTile& InPosition);
-	~FPiece() = default;
 
 	float GetHealth() const;
 

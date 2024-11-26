@@ -18,6 +18,11 @@ void FTile::SetPiece(TSharedPtr<FPiece> InPiece)
 	Piece->SetPosition(*this);
 }
 
+FVector2D FTile::ToVector2D() const
+{
+	return FVector2D(Row, Column);
+}
+
 bool FTile::operator<(const FTile& InOther) const
 {
 	return Weight < InOther.Weight;
