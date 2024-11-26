@@ -6,6 +6,9 @@
 
 class FPiece;
 
+/**
+ * Used to simulate/mock tiles on the server.
+ */
 class JUNO_API FTile
 {
 public:

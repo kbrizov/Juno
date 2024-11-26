@@ -5,6 +5,9 @@
 #include "CoreMinimal.h"
 #include "Tile.h"
 
+/**
+ * Used to simulate/mock pieces on the server.
+ */
 class JUNO_API FPiece
 {
 public:

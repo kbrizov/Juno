@@ -7,6 +7,9 @@
 
 class FTile;
 
+/**
+ * Used to simulate/mock the grid on the server.
+ */
 class JUNO_API FGrid
 {
 public:
