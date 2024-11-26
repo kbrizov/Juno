@@ -4,10 +4,12 @@
 
 #include "CoreMinimal.h"
 
+class FPiece;
+
 class JUNO_API FTile
 {
 public:
-	FTile(const uint32 InRow, const uint32 InColumn, const float InWeight);
+	FTile(const uint32 InRow, const uint32 InColumn, const float InWeight, TSharedPtr<FPiece> InPiece);
 	~FTile() = default;
 
 	uint32 GetRow() const;
@@ -16,6 +18,13 @@ public:
 
 	float GetWeight() const;
 	void SetWeight(const float InWeight);
+
+	FPiece* GetPiece() const;
+	void SetPiece(TSharedPtr<FPiece> InPiece);
+
+	void Clear();
+
+	bool IsEmpty() const;
 
 	bool operator<(const FTile& InOther) const;
 	bool operator>(const FTile& InOther) const;
@@ -26,6 +35,7 @@ private:
 	uint32 Row;
 	uint32 Column;
 	float Weight;
+	TSharedPtr<FPiece> Piece;
 };
 
 inline uint32 FTile::GetRow() const
@@ -46,4 +56,19 @@ inline float FTile::GetWeight() const
 inline void FTile::SetWeight(const float InWeight)
 {
 	Weight = InWeight;
+}
+
+inline FPiece* FTile::GetPiece() const
+{
+	return Piece.Get();
+}
+
+inline void FTile::Clear()
+{
+	Piece.Reset();
+}
+
+inline bool FTile::IsEmpty() const
+{
+	return Piece.Get() == nullptr;
 }
