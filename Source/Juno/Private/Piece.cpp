@@ -45,7 +45,6 @@ void FPiece::TakeDamage(const float InDamage)
 
 bool FPiece::IsInAttackRange(const TArray<const FTile*>& InPathToEnemy) const
 {
-	ensure(!InPathToEnemy.IsEmpty());
 	return static_cast<uint32>(InPathToEnemy.Num()) <= AttackRange;
 }
 

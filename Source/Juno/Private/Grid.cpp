@@ -48,7 +48,11 @@ const TArray<FTile>& FGrid::operator[](const uint32 Index) const
 	return Tiles[Index];
 }
 
-TArray<const FTile*> FGrid::FindPath(const FTile* InStart, const FTile* InEnd, TFunction<float(const FTile&, const FTile&)> InDistanceHeuristic) const
+TArray<const FTile*> FGrid::FindPath(
+	const FTile* InStart,
+	const FTile* InEnd,
+	const uint32 InAcceptanceRadius,
+	TFunction<float(const FTile&, const FTile&)> InDistanceHeuristic) const
 {
 	check(InStart);
 	check(InEnd);
@@ -95,7 +99,7 @@ TArray<const FTile*> FGrid::FindPath(const FTile* InStart, const FTile* InEnd, T
 			{
 				Costs[Tile] = NewCost;
 
-				// A cheaper path is found, so the tile predecesor must be replaced with the current tile.
+				// A cheaper path is found, so the tile predecessor must be replaced with the current tile.
 				if (IsVisited)
 				{
 					Visited[Tile] = Current;
@@ -111,6 +115,17 @@ TArray<const FTile*> FGrid::FindPath(const FTile* InStart, const FTile* InEnd, T
 	} // A* end.
 
 	TArray<const FTile*> Path = GetPathTo(*InEnd, Visited);
+
+	if (Path.Num() > 1)
+	{
+		Path.RemoveAt(0, 1, true); // Remove the first element.
+
+		for (uint32 i = 0; i < InAcceptanceRadius; ++i) // Remove n elements depending on the acceptance radius.
+		{
+			Path.Pop();
+		}
+	}
+
 	return Path;
 }
 
@@ -127,14 +142,15 @@ TArray<const FTile*> FGrid::GetTileNeighbors(const uint32 InRow, const uint32 In
 	TArray<const FTile*> Neighbors;
 	Neighbors.Reserve(Directions.Num());
 
-	const FVector2D Position = (*this)[InRow][InColumn].ToVector2D();
+	const FVector2D Position = Tiles[InRow][InColumn].ToVector2D();
 
 	for (const auto& Direction : Directions)
 	{
-		const FVector2D CurrentPosition = Position + Direction;
-		if (IsTileInRange(CurrentPosition.X, CurrentPosition.Y))
+		const FVector2D NeighborPosition = Position + Direction;
+		if (IsTileInRange(NeighborPosition.X, NeighborPosition.Y))
 		{
-			Neighbors.Add(&((*this)[InRow][InColumn]));
+			const FTile* Neighbor = &Tiles[NeighborPosition.X][NeighborPosition.Y];
+			Neighbors.Add(Neighbor);
 		}
 	}
 
