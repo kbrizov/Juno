@@ -36,5 +36,36 @@ FSimulation::~FSimulation()
 
 void FSimulation::FixedUpdate(const float DeltaTime)
 {
+	UpdatePlayer();
+	UpdateEnemy();
+}
 
+void FSimulation::UpdatePlayer()
+{
+	UpdatePiece(*PlayerPiece.Get(), *EnemyPiece.Get());
+}
+
+void FSimulation::UpdateEnemy()
+{
+	UpdatePiece(*EnemyPiece.Get(), *PlayerPiece.Get());
+}
+
+void FSimulation::UpdatePiece(const FPiece& InAttacker, const FPiece& InTarget)
+{
+	TArray<const FTile*> PathToTarget = Grid->FindPath(InAttacker.GetPosition(), InTarget.GetPosition());
+
+	if (PathToTarget.IsEmpty())
+	{
+		return;
+	}
+
+	if (PlayerPiece->IsInAttackRange(PathToTarget))
+	{
+		PlayerPiece->Attack(EnemyPiece.Get());
+	}
+	else
+	{
+		const FTile* NewPosition = PathToTarget[0];
+		PlayerPiece->MoveTo(NewPosition);
+	}
 }

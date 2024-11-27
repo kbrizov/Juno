@@ -29,6 +29,10 @@ private:
 	TUniquePtr<FGrid> Grid;
 	TUniquePtr<FPiece> PlayerPiece;
 	TUniquePtr<FPiece> EnemyPiece;
+
+	void UpdatePlayer();
+	void UpdateEnemy();
+	void UpdatePiece(const FPiece& InAttacker, const FPiece& InTarget);
 };
 
 inline const FGrid* FSimulation::GetGrid() const

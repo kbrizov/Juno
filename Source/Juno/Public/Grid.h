@@ -20,15 +20,15 @@ public:
 	TArray<FTile>& operator[](const uint32 Index);
 	const TArray<FTile>& operator[](const uint32 Index) const;
 
+	/**
+	 * Finds a path from Start to End by using A*.
+	 */
+	TArray<const FTile*> FindPath(const FTile* InStart, const FTile* InEnd, TFunction<float(const FTile&, const FTile&)> InDistanceHeuristic = &FGrid::CalculateEuclideanDistance) const;
+
 private:
 	uint32 Rows;
 	uint32 Columns;
 	TArray<TArray<FTile>> Tiles;
-
-	/**
-	 * Finds a path from Start to End by using A*.
-	 */
-	TArray<const FTile*> FindPath(const FTile& InStart, const FTile& InEnd, TFunction<float(const FTile&, const FTile&)> InDistanceHeuristic) const;
 
 	TArray<const FTile*> GetTileNeighbors(const FTile& InTile) const;
 
@@ -44,9 +44,9 @@ private:
 
 	TArray<const FTile*> GetPathTo(const FTile& InEnd, const TMap<const FTile*, const FTile*>& InVisited) const;
 
-	float CalculateManhattanDistance(const FTile& A, const FTile& B) const;
+	static float CalculateManhattanDistance(const FTile& A, const FTile& B);
 
-	float CalculateEuclideanDistance(const FTile& A, const FTile& B) const;
+	static float CalculateEuclideanDistance(const FTile& A, const FTile& B);
 };
 
 inline uint32 FGrid::GetRows() const

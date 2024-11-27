@@ -18,7 +18,13 @@ enum class ETeam
 class JUNO_API FPiece
 {
 public:
-	explicit FPiece(const ETeam InTeam, const float InHealth = 1.f, const float InDamage = 1.f, const uint32 InMovementSpeed = 1.f);
+	explicit FPiece(const ETeam InTeam, const float InHealth = 1.f, const float InDamage = 1.f, const uint32 InMovementSpeed = 1.f, const uint32 InAttackRange = 1);
+
+	void MoveTo(const FTile* InPosition);
+
+	void Attack(FPiece* InEnemy);
+
+	void Die();
 
 	float GetHealth() const;
 
@@ -31,11 +37,14 @@ public:
 
 	void TakeDamage(const float InDamage);
 
+	bool IsInAttackRange(const TArray<const FTile*>& InPathToEnemy) const;
+
 private:
 	ETeam Team;
 	float Health;
 	float Damage;
 	uint32 MovementSpeed;
+	uint32 AttackRange;
 	FTile* Position;
 };
 

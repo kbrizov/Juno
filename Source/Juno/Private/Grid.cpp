@@ -48,32 +48,35 @@ const TArray<FTile>& FGrid::operator[](const uint32 Index) const
 	return Tiles[Index];
 }
 
-TArray<const FTile*> FGrid::FindPath(const FTile& InStart, const FTile& InEnd, TFunction<float(const FTile&, const FTile&)> InDistanceHeuristic) const
+TArray<const FTile*> FGrid::FindPath(const FTile* InStart, const FTile* InEnd, TFunction<float(const FTile&, const FTile&)> InDistanceHeuristic) const
 {
+	check(InStart);
+	check(InEnd);
+
 	// A* start.
 	auto Costs = GetInitialCosts();
-	Costs[&InStart] = 0.0f;
+	Costs[InStart] = 0.0f;
 
 	auto HeuristicComparer = [&](const FTile* Lhs, const FTile* Rhs) -> bool
 	{
-		const float LhsPriority = Costs[Lhs] + InDistanceHeuristic(*Lhs, InEnd);
-		const float RhsPriority = Costs[Rhs] + InDistanceHeuristic(*Rhs, InEnd);
+		const float LhsPriority = Costs[Lhs] + InDistanceHeuristic(*Lhs, *InEnd);
+		const float RhsPriority = Costs[Rhs] + InDistanceHeuristic(*Rhs, *InEnd);
 
 		return LhsPriority > RhsPriority;
 	};
 
 	auto Frontier = std::priority_queue<const FTile*, std::vector<const FTile*>, decltype(HeuristicComparer)>(HeuristicComparer);
-	Frontier.push(&InStart);
+	Frontier.push(InStart);
 
 	auto Visited  = TMap<const FTile*, const FTile*>();
-	Visited.Add(&InStart, nullptr);
+	Visited.Add(InStart, nullptr);
 
 	while (!Frontier.empty())
 	{
 		const FTile* Current = Frontier.top();
 		Frontier.pop();
 
-		if (*Current == InEnd)
+		if (Current == InEnd)
 		{
 			break;
 		}
@@ -106,7 +109,7 @@ TArray<const FTile*> FGrid::FindPath(const FTile& InStart, const FTile& InEnd, T
 		}
 	} // A* end.
 
-	TArray<const FTile*> Path = GetPathTo(InEnd, Visited);
+	TArray<const FTile*> Path = GetPathTo(*InEnd, Visited);
 	return Path;
 }
 
@@ -187,7 +190,7 @@ TArray<const FTile*> FGrid::GetPathTo(const FTile& InEnd, const TMap<const FTile
 	return Path;
 }
 
-float FGrid::CalculateManhattanDistance(const FTile& A, const FTile& B) const
+float FGrid::CalculateManhattanDistance(const FTile& A, const FTile& B)
 {
 	const float ARow = static_cast<float>(A.GetRow());
 	const float AColumn = static_cast<float>(A.GetColumn());
@@ -195,11 +198,11 @@ float FGrid::CalculateManhattanDistance(const FTile& A, const FTile& B) const
 	const float BRow = static_cast<float>(B.GetRow());
 	const float BColumn = static_cast<float>(B.GetColumn());
 
-	const float Manhattan_distance = FMath::Abs(ARow - BRow) + FMath::Abs(AColumn - BColumn);
-	return Manhattan_distance;
+	const float ManhattanDistance = FMath::Abs(ARow - BRow) + FMath::Abs(AColumn - BColumn);
+	return ManhattanDistance;
 }
 
-float FGrid::CalculateEuclideanDistance(const FTile& A, const FTile& B) const
+float FGrid::CalculateEuclideanDistance(const FTile& A, const FTile& B)
 {
 	const float EuclideanDistance = FVector2D::Distance(A.ToVector2D(), B.ToVector2D());
 	return EuclideanDistance;
