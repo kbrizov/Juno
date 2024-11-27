@@ -23,7 +23,11 @@ public:
 	/**
 	 * Finds a path from Start to End by using A*.
 	 */
-	TArray<const FTile*> FindPath(const FTile* InStart, const FTile* InEnd, TFunction<float(const FTile&, const FTile&)> InDistanceHeuristic = &FGrid::CalculateEuclideanDistance) const;
+	TArray<const FTile*> FindPath(
+		const FTile* InStart,
+		const FTile* InEnd,
+		const uint32 InAcceptanceRadius = 0,
+		TFunction<float(const FTile&, const FTile&)> InDistanceHeuristic = &FGrid::CalculateEuclideanDistance) const;
 
 private:
 	uint32 Rows;

@@ -45,23 +45,32 @@ void FSimulation::FixedUpdate(const float DeltaTime)
 
 void FSimulation::UpdatePlayer()
 {
+	if (PlayerPiece->IsDead())
+	{
+		return;
+	}
+
 	UpdatePiece(*PlayerPiece.Get(), *EnemyPiece.Get());
 }
 
 void FSimulation::UpdateEnemy()
 {
+	if (EnemyPiece->IsDead())
+	{
+		return;
+	}
+
 	UpdatePiece(*EnemyPiece.Get(), *PlayerPiece.Get());
 }
 
 void FSimulation::UpdatePiece(FPiece& InAttacker, FPiece& InTarget)
 {
-	TArray<const FTile*> PathToTarget = Grid->FindPath(InAttacker.GetPosition(), InTarget.GetPosition());
-
-	if (PathToTarget.IsEmpty())
+	if (InTarget.IsDead())
 	{
 		return;
 	}
 
+	TArray<const FTile*> PathToTarget = Grid->FindPath(InAttacker.GetPosition(), InTarget.GetPosition(), InAttacker.GetAttackRange());
 	if (PlayerPiece->IsInAttackRange(PathToTarget))
 	{
 		PlayerPiece->Attack(EnemyPiece.Get());
@@ -75,7 +84,11 @@ void FSimulation::UpdatePiece(FPiece& InAttacker, FPiece& InTarget)
 	else
 	{
 		const FTile* NewPosition = PathToTarget[0];
-		PlayerPiece->MoveTo(NewPosition);
-		Commands->Enqueue(MakeShared<FMoveCommand>(&InAttacker, const_cast<FTile*>(NewPosition))); // TODO: Remove this const_cast.
+		check(NewPosition);
+		if (NewPosition->IsEmpty())
+		{
+			PlayerPiece->MoveTo(NewPosition);
+			Commands->Enqueue(MakeShared<FMoveCommand>(&InAttacker, const_cast<FTile*>(NewPosition))); // TODO: Remove this const_cast.
+		}
 	}
 }

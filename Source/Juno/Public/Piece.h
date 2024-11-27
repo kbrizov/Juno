@@ -32,6 +32,8 @@ public:
 
 	uint32 GetMovementSpeed() const;
 
+	uint32 GetAttackRange() const;
+
 	const FTile* GetPosition() const;
 	void SetPosition(FTile* InPosition);
 
@@ -69,6 +71,11 @@ inline float FPiece::GetDamage() const
 inline uint32 FPiece::GetMovementSpeed() const
 {
 	return MovementSpeed;
+}
+
+inline uint32 FPiece::GetAttackRange() const
+{
+	return AttackRange;
 }
 
 inline const FTile* FPiece::GetPosition() const
