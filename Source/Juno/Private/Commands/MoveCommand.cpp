@@ -7,8 +7,3 @@ FMoveCommand::FMoveCommand(FPiece* InPiece, FTile* InNewPosition)
 	check(InNewPosition && InNewPosition->IsEmpty());
 	NewPosition = InNewPosition;
 }
-
-void FMoveCommand::Execute(const float DeltaTime)
-{
-	checkf(false, TEXT("Implement this!"));
-}

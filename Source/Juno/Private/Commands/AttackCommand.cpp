@@ -6,8 +6,3 @@ FAttackCommand::FAttackCommand(FPiece* InAttacker, FPiece* InTarget)
 	check(InTarget);
 	Target = InTarget;
 }
-
-void FAttackCommand::Execute(const float DeltaTime)
-{
-	checkf(false, TEXT("Implement this!"));
-}

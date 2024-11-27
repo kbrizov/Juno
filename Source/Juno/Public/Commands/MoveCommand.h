@@ -10,8 +10,6 @@ class FMoveCommand final : public FCommand
 public:
 	FMoveCommand(FPiece* InPiece, FTile* InNewPosition);
 
-	virtual void Execute(const float DeltaTime) override;
-
 private:
 	FTile* NewPosition;
 };

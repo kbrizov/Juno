@@ -12,8 +12,6 @@ public:
 	explicit FCommand(FPiece* InPiece);
 	virtual ~FCommand() = default;
 
-	virtual void Execute(const float DeltaTime) = 0;
-
 protected:
 	FPiece* GetPiece();
 

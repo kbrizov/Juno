@@ -9,6 +9,4 @@ class JUNO_API FDeathCommand : public FCommand
 {
 public:
 	explicit FDeathCommand(FPiece* InPiece);
-
-	virtual void Execute(const float DeltaTime) override;
 };
