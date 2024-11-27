@@ -6,8 +6,11 @@
 #include "GameFramework/Actor.h"
 #include "GridVisual.generated.h"
 
-class FGrid;
+class APieceVisual;
 class ATileVisual;
+class FGrid;
+class FTile;
+class FPiece;
 
 UCLASS(Abstract)
 class JUNO_API AGridVisual : public AActor
@@ -17,7 +20,10 @@ class JUNO_API AGridVisual : public AActor
 public:
 	AGridVisual();
 
-	void Initialize(const FGrid* InGrid);
+	void Initialize(const FGrid& InGrid);
+
+	TArray<TObjectPtr<ATileVisual>>& operator[](const uint32 Index);
+	const TArray<TObjectPtr<ATileVisual>>& operator[](const uint32 Index) const;
 
 private:
 	UPROPERTY(EditDefaultsOnly)
@@ -26,5 +32,7 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<ATileVisual> LightTileClass;
 
-	TArray<TObjectPtr<ATileVisual>> Tiles;
+	TArray<TArray<TObjectPtr<ATileVisual>>> Tiles;
+
+	ATileVisual* SpawnTileVisual(UWorld& InWorld, const FTile& InTile);
 };

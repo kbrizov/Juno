@@ -2,15 +2,20 @@
 
 #include "GameModes/JunoGameMode.h"
 #include "GridVisual.h"
+#include "Piece.h"
+#include "PieceVisual.h"
 #include "Simulation.h"
-#include "Kismet/GameplayStatics.h"
+#include "Tile.h"
+#include "TileVisual.h"
 
 void AJunoGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 	Simulation = MakeUnique<FSimulation>(&Commands, GridRows, GridColumns);
 
-	InitializeGrid(Simulation->GetGrid());
+	InitializeGridVisual(*Simulation->GetGrid());
+	InitializePieceVisual(*Simulation->GetPlayerPiece(), PlayerVisualClass);
+	InitializePieceVisual(*Simulation->GetEnemyPiece(), EnemyVisualClass);
 
 	GetWorldTimerManager().SetTimer(FixedUpdateTimerHandle, this, &AJunoGameMode::FixedUpdate, TimeStepInSeconds, true);
 }
@@ -26,20 +31,32 @@ void AJunoGameMode::FixedUpdate()
 	Simulation->FixedUpdate(TimeStepInSeconds);
 }
 
-void AJunoGameMode::InitializeGrid(const FGrid* InGrid)
+void AJunoGameMode::InitializeGridVisual(const FGrid& InGrid)
 {
-	check(InGrid);
-
-	if (!ensure(GridClass))
+	if (!ensure(GridVisualClass))
 	{
 		return;
 	}
 
-	AGridVisual* GridVisual = Cast<AGridVisual>(UGameplayStatics::GetActorOfClass(GetWorld(), GridClass));
-	if (!ensure(GridVisual))
-	{
-		return;
-	}
-
+	GridVisual = GetWorld()->SpawnActor<AGridVisual>(GridVisualClass, FVector::Zero(), FRotator::ZeroRotator);
+	check(GridVisual);
 	GridVisual->Initialize(InGrid);
+}
+
+void AJunoGameMode::InitializePieceVisual(const FPiece& InPiece, const TSubclassOf<APieceVisual>& InPieceVisualClass)
+{
+	if (!ensure(InPieceVisualClass))
+	{
+		return;
+	}
+
+	const FVector2D Position = InPiece.GetPosition()->ToVector2D();
+	const ATileVisual* TileVisual = (*GridVisual)[Position.X][Position.Y];
+	check(TileVisual);
+
+	const FVector ZOffset = FVector(0.f, 0.f,50.f);
+	const FVector PieceVisualLocation = TileVisual->GetActorLocation() + ZOffset;
+	const FRotator PieceVisualRotation = TileVisual->GetActorRotation();
+
+	PlayerVisual = GetWorld()->SpawnActor<APieceVisual>(InPieceVisualClass, PieceVisualLocation, PieceVisualRotation);
 }

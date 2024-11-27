@@ -9,6 +9,7 @@
 #include "JunoGameMode.generated.h"
 
 class AGridVisual;
+class APieceVisual;
 
 UCLASS(Abstract)
 class JUNO_API AJunoGameMode : public AGameModeBase
@@ -39,8 +40,24 @@ private:
 	uint32 GridColumns = 8;
 
 	UPROPERTY(EditDefaultsOnly, Category="Grid")
-	TSubclassOf<AGridVisual> GridClass;
+	TSubclassOf<AGridVisual> GridVisualClass;
+
+	UPROPERTY()
+	TObjectPtr<AGridVisual> GridVisual;
+
+	UPROPERTY(EditDefaultsOnly, Category="Pieces")
+	TSubclassOf<APieceVisual> PlayerVisualClass;
+
+	UPROPERTY()
+	TObjectPtr<APieceVisual> PlayerVisual;
+
+	UPROPERTY(EditDefaultsOnly, Category="Pieces")
+	TSubclassOf<APieceVisual> EnemyVisualClass;
+
+	UPROPERTY()
+	TObjectPtr<APieceVisual> EnemyVisual;
 
 	void FixedUpdate();
-	void InitializeGrid(const FGrid* InGrid);
+	void InitializeGridVisual(const FGrid& InGrid);
+	void InitializePieceVisual(const FPiece& InPiece, const TSubclassOf<APieceVisual>& InPieceVisualClass);
 };
