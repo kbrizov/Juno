@@ -22,9 +22,9 @@ public:
 
 	void MoveTo(const FTile* InPosition);
 
-	void Attack(FPiece* InEnemy);
+	void Attack(FPiece* InEnemy) const;
 
-	void Die();
+	ETeam GetTeam() const;
 
 	float GetHealth() const;
 
@@ -38,6 +38,7 @@ public:
 	void TakeDamage(const float InDamage);
 
 	bool IsInAttackRange(const TArray<const FTile*>& InPathToEnemy) const;
+	bool IsDead() const;
 
 private:
 	ETeam Team;
@@ -46,7 +47,14 @@ private:
 	uint32 MovementSpeed;
 	uint32 AttackRange;
 	FTile* Position;
+
+	bool IsEnemy(const FPiece* InOther) const;
 };
+
+inline ETeam FPiece::GetTeam() const
+{
+	return Team;
+}
 
 inline float FPiece::GetHealth() const
 {

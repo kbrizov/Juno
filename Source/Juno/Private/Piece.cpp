@@ -16,18 +16,19 @@ void FPiece::MoveTo(const FTile* InPosition)
 	SetPosition(const_cast<FTile*>(InPosition));
 }
 
-void FPiece::Attack(FPiece* InEnemy)
+void FPiece::Attack(FPiece* InEnemy) const
 {
-	check(InEnemy);
+	check(InEnemy)
+
+	if (!ensure(IsEnemy(InEnemy)))
+	{
+		return;
+	}
+
 	InEnemy->TakeDamage(GetDamage());
 }
 
-void FPiece::Die()
-{
-	// TODO: Generate death command.
-}
-
-inline void FPiece::SetPosition(FTile* InPosition)
+void FPiece::SetPosition(FTile* InPosition)
 {
 	if (Position != nullptr)
 	{
@@ -39,16 +40,22 @@ inline void FPiece::SetPosition(FTile* InPosition)
 
 void FPiece::TakeDamage(const float InDamage)
 {
-	Health = FMath::Max(Health - InDamage, 0);
-
-	if (FMath::IsNearlyZero(Health))
-	{
-		Die();
-	}
+	Health = FMath::Max(Health - InDamage, 0.f);
 }
 
 bool FPiece::IsInAttackRange(const TArray<const FTile*>& InPathToEnemy) const
 {
 	ensure(!InPathToEnemy.IsEmpty());
 	return static_cast<uint32>(InPathToEnemy.Num()) <= AttackRange;
+}
+
+bool FPiece::IsDead() const
+{
+	return FMath::IsNearlyZero(Health);
+}
+
+bool FPiece::IsEnemy(const FPiece* InOther) const
+{
+	check(InOther);
+	return GetTeam() != InOther->GetTeam();
 }
