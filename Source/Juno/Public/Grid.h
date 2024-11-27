@@ -3,8 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-
-class FTile;
+#include "Tile.h"
 
 /**
  * Used to simulate/mock the grid on the server.

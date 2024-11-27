@@ -8,6 +8,8 @@
 #include "GameFramework/GameModeBase.h"
 #include "JunoGameMode.generated.h"
 
+class AGridVisual;
+
 UCLASS(Abstract)
 class JUNO_API AJunoGameMode : public AGameModeBase
 {
@@ -36,5 +38,9 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category="Grid")
 	uint32 GridColumns = 8;
 
+	UPROPERTY(EditDefaultsOnly, Category="Grid")
+	TSubclassOf<AGridVisual> GridClass;
+
 	void FixedUpdate();
+	void InitializeGrid(const FGrid* InGrid);
 };
