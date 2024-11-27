@@ -53,7 +53,7 @@ ATileVisual* AGridVisual::SpawnTileVisual(UWorld& InWorld, const FTile& InTile)
 	// Map the new tile's vector coordinates to their positions in a matrix (XY plane).
 	constexpr uint32 Offset = 100;
 	const float TileLocationX = GridLocation.X - (Row * Offset);
-	const float TileLocationY = GridLocation.Y - (Column * Offset);
+	const float TileLocationY = GridLocation.Y + (Column * Offset);
 	const FVector TileLocation = FVector(TileLocationX, TileLocationY, 0.0f);
 	const FRotator TileRotation = FRotator::ZeroRotator;
 

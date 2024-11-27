@@ -14,8 +14,8 @@ void AJunoGameMode::BeginPlay()
 	Simulation = MakeUnique<FSimulation>(&Commands, GridRows, GridColumns);
 
 	InitializeGridVisual(*Simulation->GetGrid());
-	InitializePieceVisual(*Simulation->GetPlayerPiece(), PlayerVisualClass);
-	InitializePieceVisual(*Simulation->GetEnemyPiece(), EnemyVisualClass);
+	InitializePlayerVisual(*Simulation->GetPlayerPiece());
+	InitializeEnemyVisual(*Simulation->GetEnemyPiece());
 
 	GetWorldTimerManager().SetTimer(FixedUpdateTimerHandle, this, &AJunoGameMode::FixedUpdate, TimeStepInSeconds, true);
 }
@@ -43,20 +43,38 @@ void AJunoGameMode::InitializeGridVisual(const FGrid& InGrid)
 	GridVisual->Initialize(InGrid);
 }
 
-void AJunoGameMode::InitializePieceVisual(const FPiece& InPiece, const TSubclassOf<APieceVisual>& InPieceVisualClass)
+void AJunoGameMode::InitializePlayerVisual(const FPiece& InPlayerPiece)
 {
-	if (!ensure(InPieceVisualClass))
+	if (!ensure(PlayerVisualClass))
 	{
 		return;
 	}
 
-	const FVector2D Position = InPiece.GetPosition()->ToVector2D();
+	const FVector2D Position = InPlayerPiece.GetPosition()->ToVector2D();
 	const ATileVisual* TileVisual = (*GridVisual)[Position.X][Position.Y];
 	check(TileVisual);
 
 	const FVector ZOffset = FVector(0.f, 0.f,50.f);
-	const FVector PieceVisualLocation = TileVisual->GetActorLocation() + ZOffset;
-	const FRotator PieceVisualRotation = TileVisual->GetActorRotation();
+	const FVector PlayerVisualLocation = TileVisual->GetActorLocation() + ZOffset;
+	const FRotator PlayerVisualRotation = TileVisual->GetActorRotation();
 
-	PlayerVisual = GetWorld()->SpawnActor<APieceVisual>(InPieceVisualClass, PieceVisualLocation, PieceVisualRotation);
+	PlayerVisual = GetWorld()->SpawnActor<APieceVisual>(PlayerVisualClass, PlayerVisualLocation, PlayerVisualRotation);
+}
+
+void AJunoGameMode::InitializeEnemyVisual(const FPiece& InEnemyPiece)
+{
+	if (!ensure(EnemyVisualClass))
+	{
+		return;
+	}
+
+	const FVector2D Position = InEnemyPiece.GetPosition()->ToVector2D();
+	const ATileVisual* TileVisual = (*GridVisual)[Position.X][Position.Y];
+	check(TileVisual);
+
+	const FVector ZOffset = FVector(0.f, 0.f,50.f);
+	const FVector EnemyVisualLocation = TileVisual->GetActorLocation() + ZOffset;
+	const FRotator EnemyVisualRotation = TileVisual->GetActorRotation();
+
+	EnemyVisual = GetWorld()->SpawnActor<APieceVisual>(EnemyVisualClass, EnemyVisualLocation, EnemyVisualRotation);
 }

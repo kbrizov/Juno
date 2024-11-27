@@ -59,5 +59,6 @@ private:
 
 	void FixedUpdate();
 	void InitializeGridVisual(const FGrid& InGrid);
-	void InitializePieceVisual(const FPiece& InPiece, const TSubclassOf<APieceVisual>& InPieceVisualClass);
+	void InitializePlayerVisual(const FPiece& InPlayerPiece);
+	void InitializeEnemyVisual(const FPiece& InEnemyPiece);
 };
