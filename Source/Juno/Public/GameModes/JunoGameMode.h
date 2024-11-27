@@ -19,9 +19,7 @@ protected:
 
 private:
 	/**
-	 * This queue is the bridge between the "Simulation" and the "Visualization".
-	 * The "Simulation" writes to it.
-	 * The "Visualization" reads from it.
+	 * This queue is the bridge between the "Simulation" and the "Visualization". It serves as input from the server.
 	 */
 	TQueue<TSharedPtr<FCommand>> Commands;
 
@@ -32,10 +30,10 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	float TimeStepInSeconds = 0.1f; // 100 ms.
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category="Grid")
 	uint32 GridRows = 8;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category="Grid")
 	uint32 GridColumns = 8;
 
 	void FixedUpdate();

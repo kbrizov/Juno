@@ -30,7 +30,7 @@ FGrid::FGrid(const uint32 InRows, const uint32 InColumns)
 
 		for (uint32 Column = 0; Column < Columns; ++Column)
 		{
-			Tiles[Row][Column] = FTile(Row, Column);
+			Tiles[Row][Column] = FTile(Row, Column, 1.f);
 		}
 	}
 }
@@ -65,6 +65,7 @@ TArray<const FTile*> FGrid::FindPath(const FTile* InStart, const FTile* InEnd, T
 		return LhsPriority > RhsPriority;
 	};
 
+	// I was forced to use std::priority_queue, because I had issues with using TArray as heap and I didn't have time to investigate.
 	auto Frontier = std::priority_queue<const FTile*, std::vector<const FTile*>, decltype(HeuristicComparer)>(HeuristicComparer);
 	Frontier.push(InStart);
 
