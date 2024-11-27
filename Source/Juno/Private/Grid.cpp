@@ -21,12 +21,12 @@ FGrid::FGrid(const uint32 InRows, const uint32 InColumns)
 	: Rows(InRows), Columns(InColumns)
 {
 	Tiles = TArray<TArray<FTile>>();
-	Tiles.Reserve(Rows);
+	Tiles.SetNum(Rows);
 
 	for (uint32 Row = 0; Row < Rows; ++Row)
 	{
 		Tiles[Row] = TArray<FTile>();
-		Tiles[Row].Reserve(Columns);
+		Tiles[Row].SetNum(Columns);
 
 		for (uint32 Column = 0; Column < Columns; ++Column)
 		{
@@ -47,7 +47,6 @@ const TArray<FTile>& FGrid::operator[](const uint32 Index) const
 {
 	return Tiles[Index];
 }
-
 
 TArray<const FTile*> FGrid::FindPath(const FTile& InStart, const FTile& InEnd, TFunction<float(const FTile&, const FTile&)> InDistanceHeuristic) const
 {

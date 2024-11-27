@@ -2,8 +2,8 @@
 
 #include "Commands/Command.h"
 
-FCommand::FCommand(TSharedPtr<FPiece> InPiece)
+FCommand::FCommand(FPiece* InPiece)
 {
-	check(InPiece.IsValid());
+	check(InPiece);
 	Piece = InPiece;
 }

@@ -1,8 +1,10 @@
 #include "Commands/AttackCommand.h"
 
-FAttackCommand::FAttackCommand(TSharedPtr<FPiece> InAttacker, TSharedPtr<FPiece> InTarget)
-	: FCommand(InAttacker), Target(InTarget)
+FAttackCommand::FAttackCommand(FPiece* InAttacker, FPiece* InTarget)
+	: FCommand(InAttacker)
 {
+	check(InTarget);
+	Target = InTarget;
 }
 
 void FAttackCommand::Execute(const float DeltaTime)

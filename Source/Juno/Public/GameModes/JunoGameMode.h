@@ -25,7 +25,7 @@ private:
 	 */
 	TQueue<FCommand*> Commands;
 
-	FSimulation Simulation;
+	TUniquePtr<FSimulation> Simulation;
 
 	FTimerHandle FixedUpdateTimerHandle;
 

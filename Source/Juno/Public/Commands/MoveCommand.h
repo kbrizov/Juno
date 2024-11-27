@@ -8,10 +8,10 @@ class FTile;
 class FMoveCommand final : public FCommand
 {
 public:
-	FMoveCommand(TSharedPtr<FPiece> InPiece, TSharedPtr<FTile> InNewPosition);
+	FMoveCommand(FPiece* InPiece, FTile* InNewPosition);
 
 	virtual void Execute(const float DeltaTime) override;
 
 private:
-	TSharedPtr<FTile> NewPosition;
+	FTile* NewPosition;
 };

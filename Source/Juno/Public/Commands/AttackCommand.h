@@ -6,10 +6,10 @@
 class FAttackCommand final : public FCommand
 {
 public:
-	FAttackCommand(TSharedPtr<FPiece> InAttacker, TSharedPtr<FPiece> InTarget);
+	FAttackCommand(FPiece* InAttacker, FPiece* InTarget);
 
 	virtual void Execute(const float DeltaTime) override;
 
 private:
-	TSharedPtr<FPiece> Target;
+	FPiece* Target;
 };

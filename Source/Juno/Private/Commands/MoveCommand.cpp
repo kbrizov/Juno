@@ -1,11 +1,10 @@
 #include "Commands/MoveCommand.h"
 #include "Tile.h"
 
-FMoveCommand::FMoveCommand(TSharedPtr<FPiece> InPiece, TSharedPtr<FTile> InNewPosition)
+FMoveCommand::FMoveCommand(FPiece* InPiece, FTile* InNewPosition)
 	: FCommand(InPiece)
 {
-	check(InNewPosition.IsValid());
-	check(InNewPosition->IsEmpty());
+	check(InNewPosition && InNewPosition->IsEmpty());
 	NewPosition = InNewPosition;
 }
 

@@ -12,7 +12,7 @@ class FPiece;
 class JUNO_API FTile
 {
 public:
-	FTile(const uint32 InRow, const uint32 InColumn, const float InWeight = 1.f, TSharedPtr<FPiece> InPiece = nullptr);
+	FTile(const uint32 InRow = 0, const uint32 InColumn = 0, const float InWeight = 1.f, FPiece* InPiece = nullptr);
 
 	uint32 GetRow() const;
 
@@ -22,7 +22,7 @@ public:
 	void SetWeight(const float InWeight);
 
 	FPiece* GetPiece() const;
-	void SetPiece(TSharedPtr<FPiece> InPiece);
+	void SetPiece(FPiece* InPiece);
 
 	void Clear();
 	FVector2D ToVector2D() const;
@@ -38,7 +38,8 @@ private:
 	uint32 Row;
 	uint32 Column;
 	float Weight;
-	TSharedPtr<FPiece> Piece;
+	float CachedWeight;
+	FPiece* Piece;
 };
 
 inline uint32 FTile::GetRow() const
@@ -63,15 +64,10 @@ inline void FTile::SetWeight(const float InWeight)
 
 inline FPiece* FTile::GetPiece() const
 {
-	return Piece.Get();
-}
-
-inline void FTile::Clear()
-{
-	Piece.Reset();
+	return Piece;
 }
 
 inline bool FTile::IsEmpty() const
 {
-	return Piece.Get() == nullptr;
+	return Piece == nullptr;
 }
