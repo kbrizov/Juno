@@ -1,12 +1,9 @@
 // Christian Rizov's Juno.
 
 #include "Grid.h"
-
+#include <queue>
 #include <vector>
-
-#include "GameplayTagContainer.h"
 #include "Tile.h"
-#include "UObject/FastReferenceCollector.h"
 
 static TArray<FVector2D> Directions =
 {
@@ -58,24 +55,24 @@ TArray<const FTile*> FGrid::FindPath(const FTile& InStart, const FTile& InEnd, T
 	auto Costs = GetInitialCosts();
 	Costs[&InStart] = 0.0f;
 
-	auto HeuristicComparer = [&](const FTile* LHS, const FTile* RHS) -> bool
+	auto HeuristicComparer = [&](const FTile* Lhs, const FTile* Rhs) -> bool
 	{
-		const float LHSPriority = Costs[LHS] + InDistanceHeuristic(*LHS, InEnd);
-		const float RHSPriority = Costs[RHS] + InDistanceHeuristic(*RHS, InEnd);
+		const float LhsPriority = Costs[Lhs] + InDistanceHeuristic(*Lhs, InEnd);
+		const float RhsPriority = Costs[Rhs] + InDistanceHeuristic(*Rhs, InEnd);
 
-		return LHSPriority > RHSPriority;
+		return LhsPriority > RhsPriority;
 	};
 
-	auto Frontier = TArray<const FTile*>();
-	Frontier.HeapPush(&InStart, HeuristicComparer);
+	auto Frontier = std::priority_queue<const FTile*, std::vector<const FTile*>, decltype(HeuristicComparer)>(HeuristicComparer);
+	Frontier.push(&InStart);
 
 	auto Visited  = TMap<const FTile*, const FTile*>();
 	Visited.Add(&InStart, nullptr);
 
-	while (!Frontier.IsEmpty())
+	while (!Frontier.empty())
 	{
-		const FTile* Current = nullptr;
-		Frontier.HeapPop(Current, HeuristicComparer);
+		const FTile* Current = Frontier.top();
+		Frontier.pop();
 
 		if (*Current == InEnd)
 		{
@@ -104,11 +101,14 @@ TArray<const FTile*> FGrid::FindPath(const FTile& InStart, const FTile& InEnd, T
 
 			if (!IsVisited)
 			{
-				Frontier.HeapPush(Tile, HeuristicComparer);
+				Frontier.push(Tile);
 				Visited.Add(Tile, Current);
 			}
 		}
 	} // A* end.
+
+	TArray<const FTile*> Path = GetPathTo(InEnd, Visited);
+	return Path;
 }
 
 TArray<const FTile*> FGrid::GetTileNeighbors(const FTile& InTile) const
