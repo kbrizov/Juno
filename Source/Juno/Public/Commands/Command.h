@@ -4,22 +4,36 @@
 
 #include "CoreMinimal.h"
 
+enum class ECommandType
+{
+	None,
+	Move,
+	Attack,
+	Death
+};
+
 class FPiece;
 
 class JUNO_API FCommand
 {
 public:
-	explicit FCommand(FPiece* InPiece);
+	explicit FCommand(FPiece* InPiece, const ECommandType InType);
 	virtual ~FCommand() = default;
 
-protected:
-	FPiece* GetPiece();
+	const FPiece* GetPiece() const;
+	ECommandType GetType() const;
 
 private:
-	FPiece* Piece;
+	FPiece* Piece = nullptr;
+	ECommandType Type = ECommandType::None;
 };
 
-inline FPiece* FCommand::GetPiece()
+inline const FPiece* FCommand::GetPiece() const
 {
 	return Piece;
+}
+
+inline ECommandType FCommand::GetType() const
+{
+	return Type;
 }

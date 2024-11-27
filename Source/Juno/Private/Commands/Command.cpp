@@ -2,8 +2,9 @@
 
 #include "Commands/Command.h"
 
-FCommand::FCommand(FPiece* InPiece)
+FCommand::FCommand(FPiece* InPiece, const ECommandType InType)
 {
 	check(InPiece);
 	Piece = InPiece;
+	Type = InType;
 }

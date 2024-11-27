@@ -58,7 +58,12 @@ private:
 	TObjectPtr<APieceVisual> EnemyVisual;
 
 	void FixedUpdate();
+
+	void ExecuteCommand(const FCommand* InCommand);
+
 	void InitializeGridVisual(const FGrid& InGrid);
+
 	void InitializePlayerVisual(const FPiece& InPlayerPiece);
+
 	void InitializeEnemyVisual(const FPiece& InEnemyPiece);
 };
