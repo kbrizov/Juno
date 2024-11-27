@@ -14,7 +14,7 @@ class FPiece;
 class JUNO_API FSimulation
 {
 public:
-	FSimulation(TQueue<FCommand*>* InCommands, const uint32 GridRows, const uint32 GridColumns);
+	FSimulation(TQueue<TSharedPtr<FCommand>>* InCommands, const uint32 GridRows, const uint32 GridColumns);
 	~FSimulation();
 
 	void FixedUpdate(const float DeltaTime);
@@ -24,7 +24,7 @@ public:
 	const FPiece* GetEnemyPiece() const;
 
 private:
-	TQueue<FCommand*>* Commands = nullptr;
+	TQueue<TSharedPtr<FCommand>>* Commands = nullptr;
 
 	TUniquePtr<FGrid> Grid;
 	TUniquePtr<FPiece> PlayerPiece;
@@ -32,7 +32,7 @@ private:
 
 	void UpdatePlayer();
 	void UpdateEnemy();
-	void UpdatePiece(const FPiece& InAttacker, const FPiece& InTarget);
+	void UpdatePiece(FPiece& InAttacker, FPiece& InTarget);
 };
 
 inline const FGrid* FSimulation::GetGrid() const

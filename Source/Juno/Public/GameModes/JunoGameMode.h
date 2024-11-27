@@ -23,7 +23,7 @@ private:
 	 * The "Simulation" writes to it.
 	 * The "Visualization" reads from it.
 	 */
-	TQueue<FCommand*> Commands;
+	TQueue<TSharedPtr<FCommand>> Commands;
 
 	TUniquePtr<FSimulation> Simulation;
 

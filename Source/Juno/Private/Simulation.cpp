@@ -4,8 +4,11 @@
 #include "Grid.h"
 #include "Piece.h"
 #include "Tile.h"
+#include "Commands/AttackCommand.h"
+#include "Commands/DeathCommand.h"
+#include "Commands/MoveCommand.h"
 
-FSimulation::FSimulation(TQueue<FCommand*>* InCommands, const uint32 GridRows, const uint32 GridColumns)
+FSimulation::FSimulation(TQueue<TSharedPtr<FCommand>>* InCommands, const uint32 GridRows, const uint32 GridColumns)
 {
 	check(InCommands);
 	Commands = InCommands;
@@ -50,7 +53,7 @@ void FSimulation::UpdateEnemy()
 	UpdatePiece(*EnemyPiece.Get(), *PlayerPiece.Get());
 }
 
-void FSimulation::UpdatePiece(const FPiece& InAttacker, const FPiece& InTarget)
+void FSimulation::UpdatePiece(FPiece& InAttacker, FPiece& InTarget)
 {
 	TArray<const FTile*> PathToTarget = Grid->FindPath(InAttacker.GetPosition(), InTarget.GetPosition());
 
@@ -62,10 +65,17 @@ void FSimulation::UpdatePiece(const FPiece& InAttacker, const FPiece& InTarget)
 	if (PlayerPiece->IsInAttackRange(PathToTarget))
 	{
 		PlayerPiece->Attack(EnemyPiece.Get());
+		Commands->Enqueue(MakeShared<FAttackCommand>(&InAttacker, &InTarget));
+
+		if (InTarget.IsDead())
+		{
+			Commands->Enqueue(MakeShared<FDeathCommand>(&InTarget));
+		}
 	}
 	else
 	{
 		const FTile* NewPosition = PathToTarget[0];
 		PlayerPiece->MoveTo(NewPosition);
+		Commands->Enqueue(MakeShared<FMoveCommand>(&InAttacker, const_cast<FTile*>(NewPosition))); // TODO: Remove this const_cast.
 	}
 }
