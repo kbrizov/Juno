@@ -15,7 +15,7 @@
 void AJunoGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-	Simulation = MakeUnique<FSimulation>(&Commands, GridRows, GridColumns);
+	Simulation = MakeUnique<FSimulation>(&Commands, GridRows, GridColumns, RandomSeed);
 
 	InitializeGridVisual(*Simulation->GetGrid());
 	InitializePlayerVisual(*Simulation->GetPlayerPiece());

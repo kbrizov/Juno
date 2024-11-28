@@ -8,26 +8,27 @@
 #include "Commands/DeathCommand.h"
 #include "Commands/MoveCommand.h"
 
-FSimulation::FSimulation(TQueue<TSharedPtr<FCommand>>* InCommands, const uint32 GridRows, const uint32 GridColumns)
+FSimulation::FSimulation(TQueue<TSharedPtr<FCommand>>* InCommands, const uint32 InGridRows, const uint32 InGridColumns, const int32 InRandomSeed)
+	: RandomSeed(InRandomSeed)
 {
 	check(InCommands);
 	Commands = InCommands;
 
-	Grid = MakeUnique<FGrid>(GridRows, GridColumns);
-	constexpr int32 Seed = 1024; // Imagine this comes from a server.
-
+	Grid = MakeUnique<FGrid>(InGridRows, InGridColumns);
 	constexpr float PlayerHealth = 5.f;
 	constexpr float PlayerDamage = 1.f;
 	constexpr float PlayerMovementSpeed = 1.f;
 	PlayerPiece = MakeUnique<FPiece>(ETeam::Player, PlayerHealth, PlayerDamage, PlayerMovementSpeed);
-	FTile* PlayerPosition = GetRandomEmptyTile(Seed);
+	FTile* PlayerPosition = GetRandomEmptyTile(InRandomSeed);
+	check(PlayerPosition);
 	PlayerPosition->SetPiece(PlayerPiece.Get());
 
 	constexpr float EnemyHealth = 5.f;
 	constexpr float EnemyDamage = 1.f;
 	constexpr float EnemyMovementSpeed = 1.f;
 	EnemyPiece = MakeUnique<FPiece>(ETeam::Enemy, EnemyHealth, EnemyDamage, EnemyMovementSpeed);
-	FTile* EnemyPosition = GetRandomEmptyTile(Seed);
+	FTile* EnemyPosition = GetRandomEmptyTile(InRandomSeed);
+	check(EnemyPosition);
 	EnemyPosition->SetPiece(EnemyPiece.Get());
 }
 

@@ -37,6 +37,9 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	float TimeStepInSeconds = 0.1f; // 100 ms.
 
+	UPROPERTY(EditDefaultsOnly)
+	int32 RandomSeed = 1024;
+
 	UPROPERTY(EditDefaultsOnly, Category="Grid")
 	uint32 GridRows = 8;
 
