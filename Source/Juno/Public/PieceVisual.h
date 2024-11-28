@@ -16,8 +16,13 @@ class JUNO_API APieceVisual : public AActor
 public:
 	APieceVisual();
 
+	UFUNCTION(BlueprintNativeEvent)
 	void MoveTo(const ATileVisual* InNewLocation, const FVector& InOffset = FVector::ZeroVector);
+
+	UFUNCTION(BlueprintNativeEvent)
 	void Attack(const APieceVisual* InOther);
+
+	UFUNCTION(BlueprintNativeEvent)
 	void Die();
 
 private:

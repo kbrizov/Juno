@@ -11,7 +11,7 @@ APieceVisual::APieceVisual()
 	RootComponent = Mesh;
 }
 
-void APieceVisual::MoveTo(const ATileVisual* InNewLocation, const FVector& InOffset)
+void APieceVisual::MoveTo_Implementation(const ATileVisual* InNewLocation, const FVector& InOffset)
 {
 	// TODO: Lerp to new location.
 	check(InNewLocation);
@@ -20,12 +20,12 @@ void APieceVisual::MoveTo(const ATileVisual* InNewLocation, const FVector& InOff
 	SetActorLocationAndRotation(NewLocation, NewRotation);
 }
 
-void APieceVisual::Attack(const APieceVisual* InOther)
+void APieceVisual::Attack_Implementation(const APieceVisual* InOther)
 {
 	// TODO: Spawn particles, change colors, etc.
 }
 
-void APieceVisual::Die()
+void APieceVisual::Die_Implementation()
 {
 	// TODO: Spawn death particle.
 	Destroy();
