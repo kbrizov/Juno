@@ -4,28 +4,30 @@
 #include "GridVisual.h"
 #include "Piece.h"
 #include "PieceVisual.h"
-#include "Simulation.h"
 #include "Tile.h"
 #include "TileVisual.h"
-#include "Chaos/PBDRigidsEvolution.h"
-#include "Commands/AttackCommand.h"
-#include "Commands/DeathCommand.h"
-#include "Commands/MoveCommand.h"
+#include "Simulation.h"
+#include "Visualization.h"
 
 void AJunoGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+
 	Simulation = MakeUnique<FSimulation>(&Commands, GridRows, GridColumns, RandomSeed);
 
 	InitializeGridVisual(*Simulation->GetGrid());
 	InitializePlayerVisual(*Simulation->GetPlayerPiece());
 	InitializeEnemyVisual(*Simulation->GetEnemyPiece());
 
+	Visualization = MakeUnique<FVisualization>(&Commands, GridVisual, PlayerVisual, EnemyVisual);
+
 	GetWorldTimerManager().SetTimer(FixedUpdateTimerHandle, this, &AJunoGameMode::FixedUpdate, TimeStepInSeconds, true);
 }
 
 void AJunoGameMode::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
+	Visualization.Reset();
+	Simulation.Reset();
 	GetWorldTimerManager().ClearTimer(FixedUpdateTimerHandle);
 	Super::EndPlay(EndPlayReason);
 }
@@ -33,60 +35,7 @@ void AJunoGameMode::EndPlay(const EEndPlayReason::Type EndPlayReason)
 void AJunoGameMode::FixedUpdate()
 {
 	Simulation->FixedUpdate(TimeStepInSeconds);
-
-	TSharedPtr<FCommand> Command = nullptr;
-	if (Commands.Dequeue(Command))
-	{
-		ExecuteCommand(Command.Get());
-	}
-}
-
-void AJunoGameMode::ExecuteCommand(const FCommand* InCommand)
-{
-	check(InCommand);
-
-	/**
-	 * I'm forced to do these static_casts because I failed to predict that I will need RTTI for the commands.
-	 * The initial idea was for them to have a virtual Execute method. However, now they are just a ledger.
-	 * FCommand is not derived from UOBject so I cant use Cast<T> and dynamic_cast is disabled.
-	 * Ideally I'd refactor the commands to be UObjects, but it's not a trivial thing to do at this point and I don't have time.
-	 */
-
-	const ECommandType CommandType = InCommand->GetType();
-
-	if (CommandType == ECommandType::Move)
-	{
-		const FMoveCommand* MoveCommand = static_cast<const FMoveCommand*>(InCommand);
-		const FPiece* Piece = MoveCommand->GetPiece();
-		const FTile* Tile = MoveCommand->GetNewPosition();
-
-		APieceVisual* PieceVisual = GetPieceVisualFrom(Piece);
-		ATileVisual* TileVisual = GetTileVisualFrom(Tile);
-
-		check(PieceVisual);
-		const FVector ZOffset = FVector(0.0f, 0.0f, 50.0f);
-		PieceVisual->MoveTo(TileVisual, ZOffset);
-	}
-	else if (CommandType == ECommandType::Attack)
-	{
-		const FAttackCommand* AttackCommand = static_cast<const FAttackCommand*>(InCommand);
-		const FPiece* Attacker = AttackCommand->GetPiece();
-		const FPiece* Target = AttackCommand->GetTarget();
-
-		APieceVisual* AttackerVisual = GetPieceVisualFrom(Attacker);
-		APieceVisual* TargetVisual = GetPieceVisualFrom(Target);
-
-		check(AttackerVisual);
-		AttackerVisual->Attack(TargetVisual);
-	}
-	else if (CommandType == ECommandType::Death)
-	{
-		const FDeathCommand* DeathCommand = static_cast<const FDeathCommand*>(InCommand);
-		const FPiece* Piece = DeathCommand->GetPiece();
-		APieceVisual* PieceVisual = GetPieceVisualFrom(Piece);
-		check(PieceVisual);
-		PieceVisual->Die();
-	}
+	Visualization->FixedUpdate(TimeStepInSeconds);
 }
 
 void AJunoGameMode::InitializeGridVisual(const FGrid& InGrid)
@@ -108,8 +57,8 @@ void AJunoGameMode::InitializePlayerVisual(const FPiece& InPlayerPiece)
 		return;
 	}
 
-	const FTile* Tile = InPlayerPiece.GetPosition();
-	const ATileVisual* TileVisual = GetTileVisualFrom(Tile);
+	const FVector2D Position = InPlayerPiece.GetPosition()->ToVector2D();
+	const ATileVisual* TileVisual = (*GridVisual)[Position.X][Position.Y];
 	check(TileVisual);
 
 	const FVector ZOffset = FVector(0.f, 0.f,50.f);
@@ -135,26 +84,4 @@ void AJunoGameMode::InitializeEnemyVisual(const FPiece& InEnemyPiece)
 	const FRotator EnemyVisualRotation = TileVisual->GetActorRotation();
 
 	EnemyVisual = GetWorld()->SpawnActor<APieceVisual>(EnemyVisualClass, EnemyVisualLocation, EnemyVisualRotation);
-}
-
-APieceVisual* AJunoGameMode::GetPieceVisualFrom(const FPiece* InPiece) const
-{
-	if (!ensure(InPiece))
-	{
-		return nullptr;
-	}
-
-	return InPiece->GetTeam() == ETeam::Player? PlayerVisual : EnemyVisual;
-}
-
-ATileVisual* AJunoGameMode::GetTileVisualFrom(const FTile* InTile) const
-{
-	if (!ensure(InTile))
-	{
-		return nullptr;
-	}
-
-	const uint32 Row = InTile->GetRow();
-	const uint32 Column = InTile->GetColumn();
-	return (*GridVisual)[Row][Column];
 }

@@ -37,7 +37,7 @@ FSimulation::~FSimulation()
 	Commands = nullptr;
 }
 
-void FSimulation::FixedUpdate(const float DeltaTime)
+void FSimulation::FixedUpdate(const float InDeltaTime)
 {
 	UpdatePlayer();
 	UpdateEnemy();

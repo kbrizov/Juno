@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 
-class FTile;
 class FCommand;
 class FGrid;
 class FPiece;
+class FTile;
 
 /**
  * This class mocks a server.
@@ -15,10 +15,10 @@ class FPiece;
 class JUNO_API FSimulation
 {
 public:
-	FSimulation(TQueue<TSharedPtr<FCommand>>* InCommands, const uint32 InGridRows, const uint32 InGridColumns, const int32 InRandomSeed = 1024);
+	explicit FSimulation(TQueue<TSharedPtr<FCommand>>* InCommands, const uint32 InGridRows, const uint32 InGridColumns, const int32 InRandomSeed = 1024);
 	~FSimulation();
 
-	void FixedUpdate(const float DeltaTime);
+	void FixedUpdate(const float InDeltaTime);
 
 	const FGrid* GetGrid() const;
 	const FPiece* GetPlayerPiece() const;

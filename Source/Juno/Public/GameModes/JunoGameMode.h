@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Simulation.h"
+#include "Visualization.h"
 #include "Commands/Command.h"
 #include "GameFramework/GameModeBase.h"
 #include "JunoGameMode.generated.h"
@@ -31,6 +32,8 @@ private:
 	TQueue<TSharedPtr<FCommand>> Commands;
 
 	TUniquePtr<FSimulation> Simulation;
+
+	TUniquePtr<FVisualization> Visualization;
 
 	FTimerHandle FixedUpdateTimerHandle;
 
@@ -66,15 +69,9 @@ private:
 
 	void FixedUpdate();
 
-	void ExecuteCommand(const FCommand* InCommand);
-
 	void InitializeGridVisual(const FGrid& InGrid);
 
 	void InitializePlayerVisual(const FPiece& InPlayerPiece);
 
 	void InitializeEnemyVisual(const FPiece& InEnemyPiece);
-
-    APieceVisual* GetPieceVisualFrom(const FPiece* InPiece) const;
-
-	ATileVisual* GetTileVisualFrom(const FTile* InTile) const;
 };
