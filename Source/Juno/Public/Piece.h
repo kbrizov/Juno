@@ -20,7 +20,7 @@ class JUNO_API FPiece
 public:
 	explicit FPiece(const ETeam InTeam, const float InHealth = 1.f, const float InDamage = 1.f, const uint32 InMovementSpeed = 1.f, const uint32 InAttackRange = 1);
 
-	void MoveTo(const FTile* InPosition);
+	void MoveTo(FTile* InPosition);
 
 	void Attack(FPiece* InEnemy) const;
 

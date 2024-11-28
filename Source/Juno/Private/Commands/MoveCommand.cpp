@@ -4,6 +4,6 @@
 FMoveCommand::FMoveCommand(FPiece* InPiece, FTile* InNewPosition)
 	: FCommand(InPiece, ECommandType::Move)
 {
-	check(InNewPosition && InNewPosition->IsEmpty());
+	check(InNewPosition);
 	NewPosition = InNewPosition;
 }

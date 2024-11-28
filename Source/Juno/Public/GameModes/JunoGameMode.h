@@ -8,6 +8,10 @@
 #include "GameFramework/GameModeBase.h"
 #include "JunoGameMode.generated.h"
 
+class FTile;
+class FGrid;
+class FPiece;
+class ATileVisual;
 class AGridVisual;
 class APieceVisual;
 
@@ -66,4 +70,8 @@ private:
 	void InitializePlayerVisual(const FPiece& InPlayerPiece);
 
 	void InitializeEnemyVisual(const FPiece& InEnemyPiece);
+
+    APieceVisual* GetPieceVisualFrom(const FPiece* InPiece) const;
+
+	ATileVisual* GetTileVisualFrom(const FTile* InTile) const;
 };

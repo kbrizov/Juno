@@ -8,12 +8,10 @@ FPiece::FPiece(const ETeam InTeam, const float InHealth, const float InDamage, c
 {
 }
 
-void FPiece::MoveTo(const FTile* InPosition)
+void FPiece::MoveTo(FTile* InPosition)
 {
 	check(InPosition);
-	// I forced myself into this const_cast because the pathfinding works with readonly collections.
-	// TODO: Refactor.
-	SetPosition(const_cast<FTile*>(InPosition));
+	InPosition->SetPiece(this);
 }
 
 void FPiece::Attack(FPiece* InEnemy) const
