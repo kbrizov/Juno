@@ -13,7 +13,7 @@
 #include "Commands/MoveCommand.h"
 #include "Commands/MoveCommandData.h"
 
-FVisualization::FVisualization(TQueue<TSharedPtr<FCommandData>>* InCommandsData, AGridVisual* InGrid, APieceVisual* InPlayerPiece, APieceVisual* InEnemyPiece)
+FVisualization::FVisualization(TQueue<TUniquePtr<FCommandData>>* InCommandsData, AGridVisual* InGrid, APieceVisual* InPlayerPiece, APieceVisual* InEnemyPiece)
 {
 	check(InCommandsData);
 	CommandsData = InCommandsData;
@@ -35,23 +35,23 @@ FVisualization::~FVisualization()
 
 void FVisualization::FixedUpdate(const float InDeltaTime)
 {
-	TSharedPtr<FCommandData> Command = nullptr;
-	if (CommandsData->Dequeue(Command))
+	TUniquePtr<FCommandData> CommandData = nullptr;
+	if (CommandsData->Dequeue(CommandData))
 	{
 		TUniquePtr<FCommand> CommandToExecute = nullptr;
-		const ECommandType CommandType = Command->GetType();
+		const ECommandType CommandType = CommandData->GetType();
 
 		if (CommandType == ECommandType::Move)
 		{
-			CommandToExecute = MakeMoveCommand(*Command);
+			CommandToExecute = MakeMoveCommand(*CommandData);
 		}
 		else if (CommandType == ECommandType::Attack)
 		{
-			CommandToExecute = MakeAttackCommand(*Command);
+			CommandToExecute = MakeAttackCommand(*CommandData);
 		}
 		else if (CommandType == ECommandType::Death)
 		{
-			CommandToExecute = MakeDeathCommand(*Command);
+			CommandToExecute = MakeDeathCommand(*CommandData);
 		}
 
 		CommandToExecute->Execute(InDeltaTime);

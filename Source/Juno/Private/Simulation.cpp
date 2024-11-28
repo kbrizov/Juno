@@ -8,7 +8,7 @@
 #include "Commands/DeathCommandData.h"
 #include "Commands/MoveCommandData.h"
 
-FSimulation::FSimulation(TQueue<TSharedPtr<FCommandData>>* InCommandsData, const uint32 InGridRows, const uint32 InGridColumns, const int32 InRandomSeed)
+FSimulation::FSimulation(TQueue<TUniquePtr<FCommandData>>* InCommandsData, const uint32 InGridRows, const uint32 InGridColumns, const int32 InRandomSeed)
 	: RandomSeed(InRandomSeed)
 {
 	check(InCommandsData);
@@ -74,11 +74,11 @@ void FSimulation::UpdatePiece(FPiece& InAttacker, FPiece& InTarget)
 	if (InAttacker.IsInAttackRange(PathToTarget))
 	{
 		InAttacker.Attack(&InTarget);
-		CommandsData->Enqueue(MakeShared<FAttackCommandData>(&InAttacker, &InTarget));
+		CommandsData->Enqueue(MakeUnique<FAttackCommandData>(&InAttacker, &InTarget));
 
 		if (InTarget.IsDead())
 		{
-			CommandsData->Enqueue(MakeShared<FDeathCommandData>(&InTarget));
+			CommandsData->Enqueue(MakeUnique<FDeathCommandData>(&InTarget));
 		}
 	}
 	else
@@ -88,7 +88,7 @@ void FSimulation::UpdatePiece(FPiece& InAttacker, FPiece& InTarget)
 		if (NewPosition->IsEmpty())
 		{
 			InAttacker.MoveTo(NewPosition);
-			CommandsData->Enqueue(MakeShared<FMoveCommandData>(&InAttacker, NewPosition));
+			CommandsData->Enqueue(MakeUnique<FMoveCommandData>(&InAttacker, NewPosition));
 		}
 	}
 }

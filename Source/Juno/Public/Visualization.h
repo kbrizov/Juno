@@ -22,13 +22,13 @@ class FDeathCommand;
 class JUNO_API FVisualization
 {
 public:
-	explicit FVisualization(TQueue<TSharedPtr<FCommandData>>* InCommandsData, AGridVisual* InGrid, APieceVisual* InPlayerPiece, APieceVisual* InEnemyPiece);
+	explicit FVisualization(TQueue<TUniquePtr<FCommandData>>* InCommandsData, AGridVisual* InGrid, APieceVisual* InPlayerPiece, APieceVisual* InEnemyPiece);
 	~FVisualization();
 
 	void FixedUpdate(const float InDeltaTime);
 
 private:
-	TQueue<TSharedPtr<FCommandData>>* CommandsData = nullptr;
+	TQueue<TUniquePtr<FCommandData>>* CommandsData = nullptr;
 
 	TWeakObjectPtr<AGridVisual> Grid;
 	TWeakObjectPtr<APieceVisual> PlayerPiece;

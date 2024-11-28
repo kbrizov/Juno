@@ -29,7 +29,7 @@ private:
 	/**
 	 * This queue is the bridge between the "Simulation" and the "Visualization". It serves as input from the server.
 	 */
-	TQueue<TSharedPtr<FCommandData>> Commands;
+	TQueue<TUniquePtr<FCommandData>> Commands;
 
 	TUniquePtr<FSimulation> Simulation;
 
