@@ -14,22 +14,21 @@ FSimulation::FSimulation(TQueue<TSharedPtr<FCommand>>* InCommands, const uint32 
 	Commands = InCommands;
 
 	Grid = MakeUnique<FGrid>(GridRows, GridColumns);
+	constexpr int32 Seed = 1024; // Imagine this comes from a server.
 
-	// TODO: Randomize player values.
 	constexpr float PlayerHealth = 5.f;
 	constexpr float PlayerDamage = 1.f;
 	constexpr float PlayerMovementSpeed = 1.f;
 	PlayerPiece = MakeUnique<FPiece>(ETeam::Player, PlayerHealth, PlayerDamage, PlayerMovementSpeed);
-	FTile& PlayerPosition = (*Grid)[0][0];
-	PlayerPosition.SetPiece(PlayerPiece.Get());
+	FTile* PlayerPosition = GetRandomEmptyTile(Seed);
+	PlayerPosition->SetPiece(PlayerPiece.Get());
 
-	// TODO: Randomize enemy values.
 	constexpr float EnemyHealth = 5.f;
 	constexpr float EnemyDamage = 1.f;
 	constexpr float EnemyMovementSpeed = 1.f;
 	EnemyPiece = MakeUnique<FPiece>(ETeam::Enemy, EnemyHealth, EnemyDamage, EnemyMovementSpeed);
-	FTile& EnemyPosition = (*Grid)[0][Grid->GetColumns() - 1];
-	EnemyPosition.SetPiece(EnemyPiece.Get());
+	FTile* EnemyPosition = GetRandomEmptyTile(Seed);
+	EnemyPosition->SetPiece(EnemyPiece.Get());
 }
 
 FSimulation::~FSimulation()
@@ -91,4 +90,26 @@ void FSimulation::UpdatePiece(FPiece& InAttacker, FPiece& InTarget)
 			Commands->Enqueue(MakeShared<FMoveCommand>(&InAttacker, NewPosition));
 		}
 	}
+}
+
+FTile* FSimulation::GetRandomEmptyTile(const int32 InSeed) const
+{
+	FRandomStream RandomStream;
+	RandomStream.Initialize(InSeed);
+
+	const uint32 Rows = Grid->GetRows();
+	const uint32 Columns = Grid->GetColumns();
+
+	FTile* RandomTile = nullptr;
+
+	do
+	{
+		const uint32 RandomRow = RandomStream.RandRange(0, Rows - 1);
+		const uint32 RandomColumn = RandomStream.RandRange(0, Columns - 1);
+
+		RandomTile = &(*Grid)[RandomRow][RandomColumn];
+	}
+	while (RandomTile && !RandomTile->IsEmpty()); // Repeat until an empty tile is found
+
+	return RandomTile;
 }

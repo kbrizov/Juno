@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 
+class FTile;
 class FCommand;
 class FGrid;
 class FPiece;
@@ -33,6 +34,8 @@ private:
 	void UpdatePlayer();
 	void UpdateEnemy();
 	void UpdatePiece(FPiece& InAttacker, FPiece& InTarget);
+
+	FTile* GetRandomEmptyTile(const int32 InSeed) const;
 };
 
 inline const FGrid* FSimulation::GetGrid() const
