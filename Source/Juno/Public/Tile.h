@@ -12,7 +12,7 @@ class FPiece;
 class JUNO_API FTile
 {
 public:
-	FTile(const uint32 InRow = 0, const uint32 InColumn = 0, const float InWeight = 1.f, FPiece* InPiece = nullptr);
+	explicit FTile(const uint32 InRow = 0, const uint32 InColumn = 0, const float InWeight = 1.f, FPiece* InPiece = nullptr);
 
 	uint32 GetRow() const;
 
