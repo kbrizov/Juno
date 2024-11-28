@@ -18,7 +18,6 @@ class JUNO_API FCommandData
 {
 public:
 	explicit FCommandData(FPiece* InPiece, const ECommandType InType);
-	virtual ~FCommandData() = default;
 
 	const FPiece* GetPiece() const;
 	ECommandType GetType() const;

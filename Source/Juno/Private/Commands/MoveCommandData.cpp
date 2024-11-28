@@ -1,9 +1,9 @@
 #include "Commands/MoveCommandData.h"
 #include "Tile.h"
 
-FMoveCommandData::FMoveCommandData(FPiece* InPiece, FTile* InNewPosition)
+FMoveCommandData::FMoveCommandData(FPiece* InPiece, FTile* InNewTile)
 	: FCommandData(InPiece, ECommandType::Move)
 {
-	check(InNewPosition);
-	NewPosition = InNewPosition;
+	check(InNewTile);
+	NewTile = InNewTile;
 }

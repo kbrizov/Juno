@@ -8,15 +8,15 @@ class FTile;
 class FMoveCommandData final : public FCommandData
 {
 public:
-	FMoveCommandData(FPiece* InPiece, FTile* InNewPosition);
+	FMoveCommandData(FPiece* InPiece, FTile* InNewTile);
 
 	FTile* GetNewPosition() const;
 
 private:
-	FTile* NewPosition;
+	FTile* NewTile;
 };
 
 inline FTile* FMoveCommandData::GetNewPosition() const
 {
-	return NewPosition;
+	return NewTile;
 }
