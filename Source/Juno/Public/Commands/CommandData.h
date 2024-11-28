@@ -14,11 +14,11 @@ enum class ECommandType
 
 class FPiece;
 
-class JUNO_API FCommand
+class JUNO_API FCommandData
 {
 public:
-	explicit FCommand(FPiece* InPiece, const ECommandType InType);
-	virtual ~FCommand() = default;
+	explicit FCommandData(FPiece* InPiece, const ECommandType InType);
+	virtual ~FCommandData() = default;
 
 	const FPiece* GetPiece() const;
 	ECommandType GetType() const;
@@ -28,12 +28,12 @@ private:
 	ECommandType Type = ECommandType::None;
 };
 
-inline const FPiece* FCommand::GetPiece() const
+inline const FPiece* FCommandData::GetPiece() const
 {
 	return Piece;
 }
 
-inline ECommandType FCommand::GetType() const
+inline ECommandType FCommandData::GetType() const
 {
 	return Type;
 }

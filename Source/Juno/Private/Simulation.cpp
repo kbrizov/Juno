@@ -4,15 +4,15 @@
 #include "Grid.h"
 #include "Piece.h"
 #include "Tile.h"
-#include "Commands/AttackCommand.h"
-#include "Commands/DeathCommand.h"
-#include "Commands/MoveCommand.h"
+#include "Commands/AttackCommandData.h"
+#include "Commands/DeathCommandData.h"
+#include "Commands/MoveCommandData.h"
 
-FSimulation::FSimulation(TQueue<TSharedPtr<FCommand>>* InCommands, const uint32 InGridRows, const uint32 InGridColumns, const int32 InRandomSeed)
+FSimulation::FSimulation(TQueue<TSharedPtr<FCommandData>>* InCommandsData, const uint32 InGridRows, const uint32 InGridColumns, const int32 InRandomSeed)
 	: RandomSeed(InRandomSeed)
 {
-	check(InCommands);
-	Commands = InCommands;
+	check(InCommandsData);
+	CommandsData = InCommandsData;
 
 	Grid = MakeUnique<FGrid>(InGridRows, InGridColumns);
 	constexpr float PlayerHealth = 5.f;
@@ -34,7 +34,7 @@ FSimulation::FSimulation(TQueue<TSharedPtr<FCommand>>* InCommands, const uint32 
 
 FSimulation::~FSimulation()
 {
-	Commands = nullptr;
+	CommandsData = nullptr;
 }
 
 void FSimulation::FixedUpdate(const float InDeltaTime)
@@ -74,11 +74,11 @@ void FSimulation::UpdatePiece(FPiece& InAttacker, FPiece& InTarget)
 	if (InAttacker.IsInAttackRange(PathToTarget))
 	{
 		InAttacker.Attack(&InTarget);
-		Commands->Enqueue(MakeShared<FAttackCommand>(&InAttacker, &InTarget));
+		CommandsData->Enqueue(MakeShared<FAttackCommandData>(&InAttacker, &InTarget));
 
 		if (InTarget.IsDead())
 		{
-			Commands->Enqueue(MakeShared<FDeathCommand>(&InTarget));
+			CommandsData->Enqueue(MakeShared<FDeathCommandData>(&InTarget));
 		}
 	}
 	else
@@ -88,7 +88,7 @@ void FSimulation::UpdatePiece(FPiece& InAttacker, FPiece& InTarget)
 		if (NewPosition->IsEmpty())
 		{
 			InAttacker.MoveTo(NewPosition);
-			Commands->Enqueue(MakeShared<FMoveCommand>(&InAttacker, NewPosition));
+			CommandsData->Enqueue(MakeShared<FMoveCommandData>(&InAttacker, NewPosition));
 		}
 	}
 }

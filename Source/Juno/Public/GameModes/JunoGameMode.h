@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Simulation.h"
 #include "Visualization.h"
-#include "Commands/Command.h"
+#include "Commands/CommandData.h"
 #include "GameFramework/GameModeBase.h"
 #include "JunoGameMode.generated.h"
 
@@ -29,7 +29,7 @@ private:
 	/**
 	 * This queue is the bridge between the "Simulation" and the "Visualization". It serves as input from the server.
 	 */
-	TQueue<TSharedPtr<FCommand>> Commands;
+	TQueue<TSharedPtr<FCommandData>> Commands;
 
 	TUniquePtr<FSimulation> Simulation;
 

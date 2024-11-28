@@ -11,7 +11,7 @@ class ATileVisual;
 class FTile;
 class APieceVisual;
 class FPiece;
-class FCommand;
+class FCommandData;
 
 /**
  * This class mocks a client.
@@ -19,19 +19,19 @@ class FCommand;
 class JUNO_API FVisualization
 {
 public:
-	explicit FVisualization(TQueue<TSharedPtr<FCommand>>* InCommands, AGridVisual* InGrid, APieceVisual* InPlayerPiece, APieceVisual* InEnemyPiece);
+	explicit FVisualization(TQueue<TSharedPtr<FCommandData>>* InCommandsData, AGridVisual* InGrid, APieceVisual* InPlayerPiece, APieceVisual* InEnemyPiece);
 	~FVisualization();
 
 	void FixedUpdate(const float InDeltaTime);
 
 private:
-	TQueue<TSharedPtr<FCommand>>* Commands = nullptr;
+	TQueue<TSharedPtr<FCommandData>>* CommandsData = nullptr;
 
 	TWeakObjectPtr<AGridVisual> Grid;
 	TWeakObjectPtr<APieceVisual> PlayerPiece;
 	TWeakObjectPtr<APieceVisual> EnemyPiece;
 
-	void ExecuteCommand(const FCommand* InCommand);
+	void ExecuteCommand(const FCommandData* InCommand);
 
 	APieceVisual* GetPieceVisualFrom(const FPiece* InPiece) const;
 

@@ -5,15 +5,15 @@
 #include "Piece.h"
 #include "PieceVisual.h"
 #include "Tile.h"
-#include "Commands/AttackCommand.h"
-#include "Commands/Command.h"
-#include "Commands/DeathCommand.h"
-#include "Commands/MoveCommand.h"
+#include "Commands/AttackCommandData.h"
+#include "Commands/CommandData.h"
+#include "Commands/DeathCommandData.h"
+#include "Commands/MoveCommandData.h"
 
-FVisualization::FVisualization(TQueue<TSharedPtr<FCommand>>* InCommands, AGridVisual* InGrid, APieceVisual* InPlayerPiece, APieceVisual* InEnemyPiece)
+FVisualization::FVisualization(TQueue<TSharedPtr<FCommandData>>* InCommandsData, AGridVisual* InGrid, APieceVisual* InPlayerPiece, APieceVisual* InEnemyPiece)
 {
-	check(InCommands);
-	Commands = InCommands;
+	check(InCommandsData);
+	CommandsData = InCommandsData;
 
 	check(InGrid);
 	Grid = InGrid;
@@ -27,19 +27,19 @@ FVisualization::FVisualization(TQueue<TSharedPtr<FCommand>>* InCommands, AGridVi
 
 FVisualization::~FVisualization()
 {
-	Commands = nullptr;
+	CommandsData = nullptr;
 }
 
 void FVisualization::FixedUpdate(const float InDeltaTime)
 {
-	TSharedPtr<FCommand> Command = nullptr;
-	if (Commands->Dequeue(Command))
+	TSharedPtr<FCommandData> Command = nullptr;
+	if (CommandsData->Dequeue(Command))
 	{
 		ExecuteCommand(Command.Get());
 	}
 }
 
-void FVisualization::ExecuteCommand(const FCommand* InCommand)
+void FVisualization::ExecuteCommand(const FCommandData* InCommand)
 {
 	check(InCommand);
 
@@ -54,7 +54,7 @@ void FVisualization::ExecuteCommand(const FCommand* InCommand)
 
 	if (CommandType == ECommandType::Move)
 	{
-		const FMoveCommand* MoveCommand = static_cast<const FMoveCommand*>(InCommand);
+		const FMoveCommandData* MoveCommand = static_cast<const FMoveCommandData*>(InCommand);
 		const FPiece* Piece = MoveCommand->GetPiece();
 		const FTile* Tile = MoveCommand->GetNewPosition();
 
@@ -67,7 +67,7 @@ void FVisualization::ExecuteCommand(const FCommand* InCommand)
 	}
 	else if (CommandType == ECommandType::Attack)
 	{
-		const FAttackCommand* AttackCommand = static_cast<const FAttackCommand*>(InCommand);
+		const FAttackCommandData* AttackCommand = static_cast<const FAttackCommandData*>(InCommand);
 		const FPiece* Attacker = AttackCommand->GetPiece();
 		const FPiece* Target = AttackCommand->GetTarget();
 
@@ -79,7 +79,7 @@ void FVisualization::ExecuteCommand(const FCommand* InCommand)
 	}
 	else if (CommandType == ECommandType::Death)
 	{
-		const FDeathCommand* DeathCommand = static_cast<const FDeathCommand*>(InCommand);
+		const FDeathCommandData* DeathCommand = static_cast<const FDeathCommandData*>(InCommand);
 		const FPiece* Piece = DeathCommand->GetPiece();
 		APieceVisual* PieceVisual = GetPieceVisualFrom(Piece);
 		check(PieceVisual);

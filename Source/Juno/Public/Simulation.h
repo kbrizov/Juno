@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 
-class FCommand;
+class FCommandData;
 class FGrid;
 class FPiece;
 class FTile;
@@ -15,7 +15,7 @@ class FTile;
 class JUNO_API FSimulation
 {
 public:
-	explicit FSimulation(TQueue<TSharedPtr<FCommand>>* InCommands, const uint32 InGridRows, const uint32 InGridColumns, const int32 InRandomSeed = 1024);
+	explicit FSimulation(TQueue<TSharedPtr<FCommandData>>* InCommandsData, const uint32 InGridRows, const uint32 InGridColumns, const int32 InRandomSeed = 1024);
 	~FSimulation();
 
 	void FixedUpdate(const float InDeltaTime);
@@ -26,7 +26,7 @@ public:
 
 private:
 	const int32 RandomSeed;
-	TQueue<TSharedPtr<FCommand>>* Commands = nullptr;
+	TQueue<TSharedPtr<FCommandData>>* CommandsData = nullptr;
 
 	TUniquePtr<FGrid> Grid;
 	TUniquePtr<FPiece> PlayerPiece;
