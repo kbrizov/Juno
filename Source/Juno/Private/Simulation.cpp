@@ -15,6 +15,7 @@ FSimulation::FSimulation(TQueue<TUniquePtr<FCommandData>>* InCommandsData, const
 	CommandsData = InCommandsData;
 
 	Grid = MakeUnique<FGrid>(InGridRows, InGridColumns);
+
 	constexpr float PlayerHealth = 5.f;
 	constexpr float PlayerDamage = 1.f;
 	constexpr float PlayerMovementSpeed = 1.f;

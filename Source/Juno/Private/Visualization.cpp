@@ -107,7 +107,7 @@ APieceVisual* FVisualization::GetPieceVisualFrom(const FPiece* InPiece) const
 		return nullptr;
 	}
 
-	return InPiece->GetTeam() == ETeam::Player? PlayerPiece.Get() : EnemyPiece.Get();
+	return InPiece->GetTeam() == ETeam::Player ? PlayerPiece.Get() : EnemyPiece.Get();
 }
 
 ATileVisual* FVisualization::GetTileVisualFrom(const FTile* InTile) const
