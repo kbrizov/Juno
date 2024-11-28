@@ -10,13 +10,13 @@ class FMoveCommandData final : public FCommandData
 public:
 	FMoveCommandData(FPiece* InPiece, FTile* InNewTile);
 
-	FTile* GetNewPosition() const;
+	FTile* GetNewTile() const;
 
 private:
 	FTile* NewTile;
 };
 
-inline FTile* FMoveCommandData::GetNewPosition() const
+inline FTile* FMoveCommandData::GetNewTile() const
 {
 	return NewTile;
 }

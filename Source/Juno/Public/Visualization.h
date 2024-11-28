@@ -4,14 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "PieceVisual.h"
+#include "Commands/MoveCommandData.h"
 
 class AGridVisual;
-class FGrid;
 class ATileVisual;
 class FTile;
 class APieceVisual;
 class FPiece;
 class FCommandData;
+class FAttackCommand;
+class FMoveCommand;
+class FDeathCommand;
 
 /**
  * This class mocks a client.
@@ -31,7 +34,9 @@ private:
 	TWeakObjectPtr<APieceVisual> PlayerPiece;
 	TWeakObjectPtr<APieceVisual> EnemyPiece;
 
-	void ExecuteCommand(const FCommandData* InCommand);
+	TUniquePtr<FMoveCommand> MakeMoveCommand(const FCommandData& InData) const;
+	TUniquePtr<FAttackCommand> MakeAttackCommand(const FCommandData& InData) const;
+	TUniquePtr<FDeathCommand> MakeDeathCommand(const FCommandData& InData) const;
 
 	APieceVisual* GetPieceVisualFrom(const FPiece* InPiece) const;
 
