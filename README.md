@@ -6,6 +6,6 @@ The project was created with Unreal Engine 5.4.4 (compiled from source). No addi
 
 # Documentation
 The most important class is the JunoGameMode. It runs a custom FixedUpdate which does two important things:
-- Every TimeStep (configured in the JunoGameMode) a "Simulation" updates the state of the game by following deterministic rules. The output of the simulation is a queue of commands. Think of the simulation as an authoritative server.
-- After each "simulation step" comes a "visualization step". The game mode dequeues a command and executes it. The output of a command is some sort of visual representation.
+- Simulation->FixedUpdate() - The "Simulation" plays the role of an authoritative server that updates the game state by following discrete steps. Each change is enqueued as a command.
+- Visualization->FixedUpdate() - The "Visualization" plays the role of client. It reads the output from the simulation (command queue) and updates the visual game state.
 That way the "simulation" and "visualization" are kept separate.
