@@ -12,4 +12,5 @@ FAttackCommand::FAttackCommand(APieceVisual* InAttacker, APieceVisual* InTarget)
 
 void FAttackCommand::Execute(const uint32 InDeltaTime)
 {
+	Piece->Attack(Target);
 }

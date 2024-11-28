@@ -2,6 +2,8 @@
 
 #include "Commands/DeathCommand.h"
 
+#include "PieceVisual.h"
+
 FDeathCommand::FDeathCommand(APieceVisual* InPiece)
 	: FCommand(InPiece)
 {
@@ -9,4 +11,5 @@ FDeathCommand::FDeathCommand(APieceVisual* InPiece)
 
 void FDeathCommand::Execute(const uint32 InDeltaTime)
 {
+	Piece->Die();
 }

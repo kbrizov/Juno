@@ -70,7 +70,8 @@ TUniquePtr<FMoveCommand> FVisualization::MakeMoveCommand(const FCommandData& InD
 	APieceVisual* PieceVisual = GetPieceVisualFrom(Piece);
 	ATileVisual* NewTileVisual = GetTileVisualFrom(NewTile);
 
-	return MakeUnique<FMoveCommand>(PieceVisual, NewTileVisual);
+	const FVector ZOffset = FVector(0.f, 0.f, 50.f);
+	return MakeUnique<FMoveCommand>(PieceVisual, NewTileVisual, ZOffset);
 }
 
 TUniquePtr<FAttackCommand> FVisualization::MakeAttackCommand(const FCommandData& InData) const
