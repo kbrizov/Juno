@@ -63,6 +63,9 @@ TArray<const FTile*> FGrid::FindPath(
 
 	auto HeuristicComparer = [&](const FTile* Lhs, const FTile* Rhs) -> bool
 	{
+		check(Lhs);
+		check(Rhs);
+
 		const float LhsPriority = Costs[Lhs] + InDistanceHeuristic(*Lhs, *InEnd);
 		const float RhsPriority = Costs[Rhs] + InDistanceHeuristic(*Rhs, *InEnd);
 

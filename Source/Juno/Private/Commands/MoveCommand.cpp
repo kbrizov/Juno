@@ -6,7 +6,7 @@
 #include "TileVisual.h"
 
 FMoveCommand::FMoveCommand(APieceVisual* InPiece, ATileVisual* InNewTile, const FVector& InOffset)
-	:FCommand(InPiece), Offset(InOffset)
+	: FCommand(InPiece), Offset(InOffset)
 {
 	check(InNewTile);
 	NewTile = InNewTile;
