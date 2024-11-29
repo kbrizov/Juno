@@ -72,12 +72,6 @@ void FSimulation::UpdatePiece(FPiece& InAttacker, FPiece& InTarget)
 	}
 
 	TArray<const FTile*> PathToTarget = Grid->FindPath(InAttacker.GetPosition(), InTarget.GetPosition(), InAttacker.GetAttackRange());
-
-	if (PathToTarget.IsEmpty())
-	{
-		return;
-	}
-
 	if (InAttacker.IsInAttackRange(PathToTarget))
 	{
 		InAttacker.Attack(&InTarget);
