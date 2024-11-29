@@ -41,11 +41,6 @@ void FPiece::TakeDamage(const float InDamage)
 	Health = FMath::Max(Health - InDamage, 0.f);
 }
 
-bool FPiece::IsInAttackRange(const TArray<const FTile*>& InPathToEnemy) const
-{
-	return static_cast<uint32>(InPathToEnemy.Num()) <= AttackRange;
-}
-
 bool FPiece::IsDead() const
 {
 	return FMath::IsNearlyZero(Health);

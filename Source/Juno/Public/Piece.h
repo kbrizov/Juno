@@ -39,7 +39,6 @@ public:
 
 	void TakeDamage(const float InDamage);
 
-	bool IsInAttackRange(const TArray<const FTile*>& InPathToEnemy) const;
 	bool IsDead() const;
 
 private:

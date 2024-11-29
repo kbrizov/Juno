@@ -20,7 +20,7 @@ public:
 	const TArray<FTile>& operator[](const uint32 Index) const;
 
 	/**
-	 * Finds a path from Start to End by using A*.
+	 * Finds a path in range (Start, End). Uses A*.
 	 */
 	TArray<const FTile*> FindPath(
 		const FTile* InStart,

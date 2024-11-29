@@ -119,11 +119,11 @@ TArray<const FTile*> FGrid::FindPath(
 
 	TArray<const FTile*> Path = GetPathTo(*InEnd, Visited);
 
-	if (Path.Num() > 1)
+	if (!Path.IsEmpty())
 	{
-		Path.RemoveAt(0, 1, true); // Remove the first element.
+		Path.RemoveAt(0, 1, true); // Exclude the start.
 
-		for (uint32 i = 0; i < InAcceptanceRadius; ++i) // Remove n elements from the back.
+		for (uint32 i = 0; i < InAcceptanceRadius; ++i) // Exclude N elements from the end.
 		{
 			Path.Pop();
 		}

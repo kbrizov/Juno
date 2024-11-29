@@ -72,7 +72,18 @@ void FSimulation::UpdatePiece(FPiece& InAttacker, FPiece& InTarget)
 	}
 
 	TArray<const FTile*> PathToTarget = Grid->FindPath(InAttacker.GetPosition(), InTarget.GetPosition(), InAttacker.GetAttackRange());
-	if (InAttacker.IsInAttackRange(PathToTarget))
+
+	const bool bShouldMove = !PathToTarget.IsEmpty();
+	if (bShouldMove)
+	{
+		FTile* NewPosition = const_cast<FTile*>(PathToTarget[0]); // TODO: Remove this const_cast.
+		if (NewPosition && NewPosition->IsEmpty())
+		{
+			InAttacker.MoveTo(NewPosition);
+			CommandsData->Enqueue(MakeUnique<FMoveCommandData>(&InAttacker, NewPosition));
+		}
+	}
+	else // Should attack.
 	{
 		InAttacker.Attack(&InTarget);
 		CommandsData->Enqueue(MakeUnique<FAttackCommandData>(&InAttacker, &InTarget));
@@ -80,17 +91,6 @@ void FSimulation::UpdatePiece(FPiece& InAttacker, FPiece& InTarget)
 		if (InTarget.IsDead())
 		{
 			CommandsData->Enqueue(MakeUnique<FDeathCommandData>(&InTarget));
-		}
-	}
-	else
-	{
-		check(!PathToTarget.IsEmpty());
-		FTile* NewPosition = const_cast<FTile*>(PathToTarget[0]); // TODO: Remove this const_cast.
-		check(NewPosition);
-		if (NewPosition->IsEmpty())
-		{
-			InAttacker.MoveTo(NewPosition);
-			CommandsData->Enqueue(MakeUnique<FMoveCommandData>(&InAttacker, NewPosition));
 		}
 	}
 }
