@@ -84,6 +84,7 @@ void FSimulation::UpdatePiece(FPiece& InAttacker, FPiece& InTarget)
 	}
 	else
 	{
+		check(!PathToTarget.IsEmpty());
 		FTile* NewPosition = const_cast<FTile*>(PathToTarget[0]); // TODO: Remove this const_cast.
 		check(NewPosition);
 		if (NewPosition->IsEmpty())
