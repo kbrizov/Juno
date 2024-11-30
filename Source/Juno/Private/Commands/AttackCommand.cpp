@@ -10,7 +10,8 @@ FAttackCommand::FAttackCommand(APieceVisual* InAttacker, APieceVisual* InTarget)
 	Target = InTarget;
 }
 
-void FAttackCommand::Execute(const uint32 InDeltaTime)
+void FAttackCommand::Execute(const float InDeltaTime)
 {
 	Piece->Attack(Target);
+	Status = ECommandStatus::Completed;
 }

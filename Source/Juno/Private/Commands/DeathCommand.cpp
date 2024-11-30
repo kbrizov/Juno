@@ -9,7 +9,8 @@ FDeathCommand::FDeathCommand(APieceVisual* InPiece)
 {
 }
 
-void FDeathCommand::Execute(const uint32 InDeltaTime)
+void FDeathCommand::Execute(const float InDeltaTime)
 {
 	Piece->Die();
+	Status = ECommandStatus::Completed;
 }

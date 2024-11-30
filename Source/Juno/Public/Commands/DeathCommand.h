@@ -11,5 +11,5 @@ public:
 	explicit FDeathCommand(APieceVisual* InPiece);
 	virtual ~FDeathCommand() = default;
 
-	virtual void Execute(const uint32 InDeltaTime) override;
+	virtual void Execute(float InDeltaTime) override;
 };

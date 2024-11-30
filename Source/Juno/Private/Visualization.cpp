@@ -33,28 +33,15 @@ FVisualization::~FVisualization()
 	CommandsData = nullptr;
 }
 
-void FVisualization::FixedUpdate(const float InDeltaTime)
+void FVisualization::Update(const float InDeltaTime)
 {
-	TUniquePtr<FCommandData> CommandData = nullptr;
-	if (CommandsData->Dequeue(CommandData))
+	if (CurrentCommand && !CurrentCommand->IsCompleted())
 	{
-		TUniquePtr<FCommand> CommandToExecute = nullptr;
-		const ECommandType CommandType = CommandData->GetType();
-
-		if (CommandType == ECommandType::Move)
-		{
-			CommandToExecute = MakeMoveCommand(*CommandData);
-		}
-		else if (CommandType == ECommandType::Attack)
-		{
-			CommandToExecute = MakeAttackCommand(*CommandData);
-		}
-		else if (CommandType == ECommandType::Death)
-		{
-			CommandToExecute = MakeDeathCommand(*CommandData);
-		}
-
-		CommandToExecute->Execute(InDeltaTime);
+		CurrentCommand->Execute(InDeltaTime);
+	}
+	else
+	{
+		CurrentCommand = GetNextCommand();
 	}
 }
 
@@ -70,8 +57,9 @@ TUniquePtr<FMoveCommand> FVisualization::MakeMoveCommand(const FCommandData& InD
 	APieceVisual* PieceVisual = GetPieceVisualFrom(Piece);
 	ATileVisual* NewTileVisual = GetTileVisualFrom(NewTile);
 
+	const float Duration = Piece->GetMovementSpeed();
 	const FVector ZOffset = FVector(0.f, 0.f, 50.f);
-	return MakeUnique<FMoveCommand>(PieceVisual, NewTileVisual, ZOffset);
+	return MakeUnique<FMoveCommand>(PieceVisual, NewTileVisual, Duration, ZOffset);
 }
 
 TUniquePtr<FAttackCommand> FVisualization::MakeAttackCommand(const FCommandData& InData) const
@@ -120,4 +108,30 @@ ATileVisual* FVisualization::GetTileVisualFrom(const FTile* InTile) const
 	const uint32 Row = InTile->GetRow();
 	const uint32 Column = InTile->GetColumn();
 	return (*Grid)[Row][Column];
+}
+
+TUniquePtr<FCommand> FVisualization::GetNextCommand() const
+{
+	TUniquePtr<FCommand> NextCommand = nullptr;
+	TUniquePtr<FCommandData> NextCommandData = nullptr;
+
+	if (CommandsData->Dequeue(NextCommandData))
+	{
+		const ECommandType CommandType = NextCommandData->GetType();
+
+		if (CommandType == ECommandType::Move)
+		{
+			NextCommand = MakeMoveCommand(*NextCommandData);
+		}
+		else if (CommandType == ECommandType::Attack)
+		{
+			NextCommand = MakeAttackCommand(*NextCommandData);
+		}
+		else if (CommandType == ECommandType::Death)
+		{
+			NextCommand = MakeDeathCommand(*NextCommandData);
+		}
+	}
+
+	return NextCommand;
 }

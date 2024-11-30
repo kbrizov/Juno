@@ -11,7 +11,7 @@ public:
 	explicit FAttackCommand(APieceVisual* InAttacker, APieceVisual* InTarget);
 	virtual ~FAttackCommand() = default;
 
-	virtual void Execute(const uint32 InDeltaTime) override;
+	virtual void Execute(float InDeltaTime) override;
 
 private:
 	APieceVisual* Target;

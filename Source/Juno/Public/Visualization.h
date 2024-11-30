@@ -12,6 +12,7 @@ class FTile;
 class APieceVisual;
 class FPiece;
 class FCommandData;
+class FCommand;
 class FAttackCommand;
 class FMoveCommand;
 class FDeathCommand;
@@ -25,10 +26,11 @@ public:
 	explicit FVisualization(TQueue<TUniquePtr<FCommandData>>* InCommandsData, AGridVisual* InGrid, APieceVisual* InPlayerPiece, APieceVisual* InEnemyPiece);
 	~FVisualization();
 
-	void FixedUpdate(const float InDeltaTime);
+	void Update(const float InDeltaTime);
 
 private:
 	TQueue<TUniquePtr<FCommandData>>* CommandsData = nullptr;
+	TUniquePtr<FCommand> CurrentCommand = nullptr;
 
 	TWeakObjectPtr<AGridVisual> Grid;
 	TWeakObjectPtr<APieceVisual> PlayerPiece;
@@ -41,4 +43,6 @@ private:
 	APieceVisual* GetPieceVisualFrom(const FPiece* InPiece) const;
 
 	ATileVisual* GetTileVisualFrom(const FTile* InTile) const;
+
+	TUniquePtr<FCommand> GetNextCommand() const;
 };

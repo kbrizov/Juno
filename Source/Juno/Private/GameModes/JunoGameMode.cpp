@@ -9,6 +9,21 @@
 #include "Simulation.h"
 #include "Visualization.h"
 
+AJunoGameMode::AJunoGameMode()
+{
+	PrimaryActorTick.bCanEverTick = true;
+}
+
+void AJunoGameMode::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	if (Visualization)
+	{
+		Visualization->Update(DeltaTime);
+	}
+}
+
 void AJunoGameMode::BeginPlay()
 {
 	Super::BeginPlay();
@@ -34,8 +49,10 @@ void AJunoGameMode::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 void AJunoGameMode::FixedUpdate()
 {
-	Simulation->FixedUpdate(TimeStepInSeconds);
-	Visualization->FixedUpdate(TimeStepInSeconds);
+	if (Simulation)
+	{
+		Simulation->FixedUpdate(TimeStepInSeconds);
+	}
 }
 
 void AJunoGameMode::InitializeGridVisual(const FGrid& InGrid)
