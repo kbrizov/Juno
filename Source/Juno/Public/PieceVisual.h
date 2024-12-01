@@ -17,9 +17,6 @@ public:
 	APieceVisual();
 
 	UFUNCTION(BlueprintNativeEvent)
-	void MoveTo(const ATileVisual* InNewLocation, const FVector& InOffset = FVector::ZeroVector);
-
-	UFUNCTION(BlueprintNativeEvent)
 	void Attack(const APieceVisual* InOther);
 
 	UFUNCTION(BlueprintNativeEvent)
