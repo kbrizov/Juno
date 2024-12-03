@@ -7,7 +7,6 @@
 #include "Commands/MoveCommandData.h"
 
 class AGridVisual;
-class ATileVisual;
 class FTile;
 class APieceVisual;
 class FPiece;

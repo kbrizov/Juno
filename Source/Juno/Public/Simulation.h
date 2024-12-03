@@ -25,8 +25,8 @@ public:
 	const FPiece* GetEnemyPiece() const;
 
 private:
-	const int32 RandomSeed;
 	TQueue<TUniquePtr<FCommandData>>* CommandsData = nullptr;
+	const int32 RandomSeed;
 
 	TUniquePtr<FGrid> Grid;
 	TUniquePtr<FPiece> PlayerPiece;

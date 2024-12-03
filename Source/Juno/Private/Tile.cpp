@@ -46,7 +46,8 @@ bool FTile::operator==(const FTile& InOther) const
 	const bool bEqualRows = Row == InOther.Row;
 	const bool bEqualColumns = Column == InOther.Column;
 	const bool bEqualWeight = FMath::IsNearlyEqual(Weight, InOther.Weight);
-	const bool bAreEqual = bEqualRows && bEqualColumns && bEqualWeight;
+	const bool bEqualPieces = Piece == InOther.Piece;
+	const bool bAreEqual = bEqualRows && bEqualColumns && bEqualPieces && bEqualWeight;
 	return bAreEqual;
 }
 

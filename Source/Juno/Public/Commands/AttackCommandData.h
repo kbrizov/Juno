@@ -6,7 +6,7 @@
 class FAttackCommandData final : public FCommandData
 {
 public:
-	FAttackCommandData(FPiece* InAttacker, FPiece* InTarget);
+	explicit FAttackCommandData(FPiece* InAttacker, FPiece* InTarget);
 
 	FPiece* GetTarget() const;
 

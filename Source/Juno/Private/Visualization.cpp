@@ -14,22 +14,19 @@
 #include "Commands/MoveCommandData.h"
 
 FVisualization::FVisualization(TQueue<TUniquePtr<FCommandData>>* InCommandsData, AGridVisual* InGrid, APieceVisual* InPlayerPiece, APieceVisual* InEnemyPiece)
+	: CommandsData(InCommandsData), Grid(InGrid), PlayerPiece(InPlayerPiece), EnemyPiece(InEnemyPiece)
 {
 	check(InCommandsData);
-	CommandsData = InCommandsData;
-
 	check(InGrid);
-	Grid = InGrid;
-
 	check(InPlayerPiece);
-	PlayerPiece = InPlayerPiece;
-
 	check(InEnemyPiece);
-	EnemyPiece = InEnemyPiece;
 }
 
 FVisualization::~FVisualization()
 {
+	EnemyPiece.Reset();
+	PlayerPiece.Reset();
+	Grid.Reset();
 	CommandsData = nullptr;
 }
 

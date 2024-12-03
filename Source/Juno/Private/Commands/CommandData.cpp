@@ -3,8 +3,9 @@
 #include "Commands/CommandData.h"
 
 FCommandData::FCommandData(FPiece* InPiece, const ECommandType InType)
+	: Piece(InPiece), Type(InType)
 {
 	check(InPiece);
-	Piece = InPiece;
-	Type = InType;
 }
+
+FCommandData::~FCommandData() = default;

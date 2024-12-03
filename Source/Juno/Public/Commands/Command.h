@@ -16,7 +16,6 @@ class APieceVisual;
 class JUNO_API FCommand
 {
 public:
-	explicit FCommand(APieceVisual* InPiece);
 	virtual ~FCommand() = default;
 
 	virtual void Execute(float InDeltaTime) = 0;
@@ -28,6 +27,8 @@ public:
 protected:
 	APieceVisual* Piece;
 	ECommandStatus Status;
+
+	FCommand(APieceVisual* InPiece);
 };
 
 inline bool FCommand::IsPending() const

@@ -1,7 +1,6 @@
 // Christian Rizov's Juno.
 
 #include "Commands/DeathCommand.h"
-
 #include "PieceVisual.h"
 
 FDeathCommand::FDeathCommand(APieceVisual* InPiece)

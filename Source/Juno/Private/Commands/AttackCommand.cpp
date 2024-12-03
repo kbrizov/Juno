@@ -4,10 +4,9 @@
 #include "PieceVisual.h"
 
 FAttackCommand::FAttackCommand(APieceVisual* InAttacker, APieceVisual* InTarget)
-	: FCommand(InAttacker)
+	: FCommand(InAttacker), Target(InTarget)
 {
 	check(InTarget);
-	Target = InTarget;
 }
 
 void FAttackCommand::Execute(const float InDeltaTime)

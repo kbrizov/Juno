@@ -9,10 +9,9 @@
 #include "Commands/MoveCommandData.h"
 
 FSimulation::FSimulation(TQueue<TUniquePtr<FCommandData>>* InCommandsData, const uint32 InGridRows, const uint32 InGridColumns, const int32 InRandomSeed)
-	: RandomSeed(InRandomSeed)
+	: CommandsData(InCommandsData), RandomSeed(InRandomSeed)
 {
 	check(InCommandsData);
-	CommandsData = InCommandsData;
 
 	Grid = MakeUnique<FGrid>(InGridRows, InGridColumns);
 
@@ -35,6 +34,9 @@ FSimulation::FSimulation(TQueue<TUniquePtr<FCommandData>>* InCommandsData, const
 
 FSimulation::~FSimulation()
 {
+	EnemyPiece.Reset();
+	PlayerPiece.Reset();
+	Grid.Reset();
 	CommandsData = nullptr;
 }
 
