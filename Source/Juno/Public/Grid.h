@@ -43,9 +43,11 @@ private:
 
 	bool IsColumnInRange(const uint32 InColumn) const;
 
-	TMap<const FTile*, float> GetInitialCosts() const;
+	TMap<const FTile*, const FTile*> CalculatePathUsingAStar(const FTile* InStart, const FTile* InEnd, TFunction<float(const FTile&, const FTile&)> InDistanceHeuristic) const;
 
-	TArray<const FTile*> GetPathTo(const FTile& InEnd, const TMap<const FTile*, const FTile*>& InVisited) const;
+	TMap<const FTile*, float> CalculateInitialCosts() const;
+
+	TArray<const FTile*> BacktrackFromEndToStart(const FTile& InEnd, const TMap<const FTile*, const FTile*>& InAStarOutput) const;
 
 	static float CalculateManhattanDistance(const FTile& A, const FTile& B);
 

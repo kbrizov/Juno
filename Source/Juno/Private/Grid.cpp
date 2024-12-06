@@ -57,67 +57,8 @@ TArray<const FTile*> FGrid::FindPath(
 	check(InStart);
 	check(InEnd);
 
-	// A* start.
-	auto Costs = GetInitialCosts();
-	Costs[InStart] = 0.0f;
-
-	auto HeuristicComparer = [&](const FTile* Lhs, const FTile* Rhs) -> bool
-	{
-		check(Lhs);
-		check(Rhs);
-
-		const float LhsPriority = Costs[Lhs] + InDistanceHeuristic(*Lhs, *InEnd);
-		const float RhsPriority = Costs[Rhs] + InDistanceHeuristic(*Rhs, *InEnd);
-
-		return LhsPriority > RhsPriority;
-	};
-
-	// I was forced to use std::priority_queue, because I had issues with using TArray as heap and I didn't have time to investigate.
-	auto Frontier = std::priority_queue<const FTile*, std::vector<const FTile*>, decltype(HeuristicComparer)>(HeuristicComparer);
-	Frontier.push(InStart);
-
-	auto Visited  = TMap<const FTile*, const FTile*>();
-	Visited.Add(InStart, nullptr);
-
-	while (!Frontier.empty())
-	{
-		const FTile* Current = Frontier.top();
-		Frontier.pop();
-
-		if (Current == InEnd)
-		{
-			break;
-		}
-
-		auto Neighbors = GetTileNeighbors(*Current);
-
-		for (const auto& Tile : Neighbors)
-		{
-			const float CurrentCost = Costs[Tile];
-			const float NewCost = Costs[Current] + Tile->GetWeight();
-
-			const bool IsVisited = Visited.Contains(Tile);
-
-			if (NewCost < CurrentCost)
-			{
-				Costs[Tile] = NewCost;
-
-				// A cheaper path is found, so the tile predecessor must be replaced with the current tile.
-				if (IsVisited)
-				{
-					Visited[Tile] = Current;
-				}
-			}
-
-			if (!IsVisited)
-			{
-				Frontier.push(Tile);
-				Visited.Add(Tile, Current);
-			}
-		}
-	} // A* end.
-
-	TArray<const FTile*> Path = GetPathTo(*InEnd, Visited);
+	auto AStarOutput = CalculatePathUsingAStar(InStart, InEnd, InDistanceHeuristic);
+	auto Path = BacktrackFromEndToStart(*InEnd, AStarOutput);
 
 	if (!Path.IsEmpty())
 	{
@@ -160,7 +101,70 @@ TArray<const FTile*> FGrid::GetTileNeighbors(const uint32 InRow, const uint32 In
 	return Neighbors;
 }
 
-TMap<const FTile*, float> FGrid::GetInitialCosts() const
+TMap<const FTile*, const FTile*> FGrid::CalculatePathUsingAStar(const FTile* InStart, const FTile* InEnd, TFunction<float(const FTile&, const FTile&)> InDistanceHeuristic) const
+{
+	check(InStart);
+	check(InEnd);
+
+	auto Costs = CalculateInitialCosts();
+	Costs[InStart] = 0.0f;
+
+	auto HeuristicComparer = [&](const FTile& Lhs, const FTile& Rhs) -> bool
+	{
+		const float LhsPriority = Costs[&Lhs] + InDistanceHeuristic(Lhs, *InEnd);
+		const float RhsPriority = Costs[&Rhs] + InDistanceHeuristic(Rhs, *InEnd);
+
+		return LhsPriority < RhsPriority;
+	};
+
+	TArray<const FTile*> Frontier;
+	Frontier.HeapPush(InStart, HeuristicComparer);
+
+	auto Visited  = TMap<const FTile*, const FTile*>();
+	Visited.Add(InStart, nullptr);
+
+	while (!Frontier.IsEmpty())
+	{
+		const FTile* Current = nullptr;
+		Frontier.HeapPop(Current, HeuristicComparer);
+
+		if (Current == InEnd)
+		{
+			break;
+		}
+
+		auto Neighbors = GetTileNeighbors(*Current);
+
+		for (const auto& Tile : Neighbors)
+		{
+			const float CurrentCost = Costs[Tile];
+			const float NewCost = Costs[Current] + Tile->GetWeight();
+
+			const bool IsVisited = Visited.Contains(Tile);
+
+			if (NewCost < CurrentCost)
+			{
+				Costs[Tile] = NewCost;
+
+				// A cheaper path is found, so the tile predecessor must be replaced with the current tile.
+				if (IsVisited)
+				{
+					Visited[Tile] = Current;
+				}
+			}
+
+			if (!IsVisited)
+			{
+				Frontier.HeapPush(Tile, HeuristicComparer);
+				Visited.Add(Tile, Current);
+			}
+		}
+	}
+
+	return Visited;
+}
+
+TMap<const FTile*, float> FGrid::CalculateInitialCosts() const
 {
 	TMap<const FTile*, float> Costs;
 
@@ -178,9 +182,9 @@ TMap<const FTile*, float> FGrid::GetInitialCosts() const
 	return Costs;
 }
 
-TArray<const FTile*> FGrid::GetPathTo(const FTile& InEnd, const TMap<const FTile*, const FTile*>& InVisited) const
+TArray<const FTile*> FGrid::BacktrackFromEndToStart(const FTile& InEnd, const TMap<const FTile*, const FTile*>& InAStarOutput) const
 {
-	if (InVisited.IsEmpty())
+	if (InAStarOutput.IsEmpty() || !InAStarOutput.Contains(&InEnd))
 	{
 		ensure(false);
 		return TArray<const FTile*>();
@@ -188,23 +192,13 @@ TArray<const FTile*> FGrid::GetPathTo(const FTile& InEnd, const TMap<const FTile
 
 	TArray<const FTile*> Path;
 
-	const FTile* Current = nullptr;
-	const FTile* Previous = nullptr;
-
-	if (InVisited.Contains(&InEnd))
-	{
-		Current = &InEnd;
-		Previous = InVisited[Current]; // Getting the previous tile of the end tile.
-	}
-
-	while (Previous != nullptr) // While we reach the start.
+	const FTile* Current = &InEnd;
+	while (Current != nullptr)
 	{
 		Path.Add(Current);
-		Current = Previous;
-		Previous = InVisited[Current];
+		Current = InAStarOutput.FindRef(Current);
 	}
 
-	Path.Add(Current);
 	Algo::Reverse(Path);
 
 	return Path;
