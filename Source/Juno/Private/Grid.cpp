@@ -1,21 +1,7 @@
 // Christian Rizov's Juno.
 
 #include "Grid.h"
-#include <queue>
-#include <vector>
 #include "Tile.h"
-
-static TArray<FVector2D> Directions =
-{
-	FVector2D(1, 0),
-	FVector2D(1, 1),
-	FVector2D(0, 1),
-	FVector2D(-1, 1),
-	FVector2D(-1, 0),
-	FVector2D(-1, -1),
-	FVector2D(0, -1),
-	FVector2D(1, -1)
-};
 
 FGrid::FGrid(const uint32 InRows, const uint32 InColumns)
 	: Rows(InRows), Columns(InColumns)
@@ -82,6 +68,18 @@ TArray<const FTile*> FGrid::GetTileNeighbors(const uint32 InRow, const uint32 In
 {
 	check(IsRowInRange(InRow));
 	check(IsColumnInRange(InColumn));
+
+	static TArray<FVector2D> Directions =
+	{
+		FVector2D(1, 0),
+		FVector2D(1, 1),
+		FVector2D(0, 1),
+		FVector2D(-1, 1),
+		FVector2D(-1, 0),
+		FVector2D(-1, -1),
+		FVector2D(0, -1),
+		FVector2D(1, -1)
+	};
 
 	TArray<const FTile*> Neighbors;
 	Neighbors.Reserve(Directions.Num());
