@@ -1,7 +1,6 @@
 // Christian Rizov's Juno.
 
 #include "Commands/MoveCommand.h"
-
 #include "PieceVisual.h"
 #include "TileVisual.h"
 

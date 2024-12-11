@@ -1,3 +1,5 @@
+// Christian Rizov's Juno.
+
 #include "Commands/AttackCommandData.h"
 
 FAttackCommandData::FAttackCommandData(FPiece* InAttacker, FPiece* InTarget)

@@ -48,7 +48,7 @@ TArray<const FTile*> FGrid::FindPath(
 
 	if (!Path.IsEmpty())
 	{
-		Path.RemoveAt(0, 1, true); // Exclude the start.
+		Path.RemoveAt(0, 1); // Exclude the start.
 
 		for (uint32 i = 0; i < InAcceptanceRadius; ++i) // Exclude N elements from the end.
 		{

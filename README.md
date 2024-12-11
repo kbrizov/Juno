@@ -2,7 +2,7 @@
 A small auto-battler.
 
 # Unreal Engine Version
-The project was created with Unreal Engine 5.4.4 (compiled from source). No additional dependencies.
+Unreal Engine 5.5.1.
 
 # Documentation
 The most important class is the JunoGameMode. It does two important things:

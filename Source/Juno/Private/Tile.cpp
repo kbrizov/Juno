@@ -1,7 +1,6 @@
 // Christian Rizov's Juno.
 
 #include "Tile.h"
-
 #include "Piece.h"
 
 FTile::FTile(const uint32 InRow, const uint32 InColumn, const float InWeight, FPiece* InPiece)
