@@ -9,10 +9,8 @@
 #include "GameFramework/GameModeBase.h"
 #include "JunoGameMode.generated.h"
 
-class FTile;
 class FGrid;
 class FPiece;
-class ATileVisual;
 class AGridVisual;
 class APieceVisual;
 

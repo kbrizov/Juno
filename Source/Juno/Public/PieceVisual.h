@@ -6,8 +6,6 @@
 #include "GameFramework/Actor.h"
 #include "PieceVisual.generated.h"
 
-class ATileVisual;
-
 UCLASS(Abstract)
 class JUNO_API APieceVisual : public AActor
 {

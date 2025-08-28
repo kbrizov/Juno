@@ -4,17 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "PieceVisual.h"
-#include "Commands/MoveCommandData.h"
 
 class AGridVisual;
-class FTile;
+class ATileVisual;
 class APieceVisual;
+class FTile;
 class FPiece;
-class FCommandData;
 class FCommand;
 class FAttackCommand;
 class FMoveCommand;
 class FDeathCommand;
+class FCommandData;
 
 /**
  * This class mocks a client.

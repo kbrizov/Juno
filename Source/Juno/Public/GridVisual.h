@@ -6,11 +6,9 @@
 #include "GameFramework/Actor.h"
 #include "GridVisual.generated.h"
 
-class APieceVisual;
 class ATileVisual;
 class FGrid;
 class FTile;
-class FPiece;
 
 UCLASS(Abstract)
 class JUNO_API AGridVisual : public AActor
