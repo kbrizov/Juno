@@ -15,7 +15,7 @@ enum class ETeam
 /**
  * Used to simulate/mock pieces on the server.
  */
-class JUNO_API FPiece
+class JUNO_API FPiece final
 {
 public:
     explicit FPiece(

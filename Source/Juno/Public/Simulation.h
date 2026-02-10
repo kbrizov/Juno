@@ -12,7 +12,7 @@ class FTile;
 /**
  * This class mocks a server.
  */
-class JUNO_API FSimulation
+class JUNO_API FSimulation final
 {
 public:
     explicit FSimulation(

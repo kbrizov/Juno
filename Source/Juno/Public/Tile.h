@@ -9,7 +9,7 @@ class FPiece;
 /**
  * Used to simulate/mock tiles on the server.
  */
-class JUNO_API FTile
+class JUNO_API FTile final
 {
 public:
     explicit FTile(

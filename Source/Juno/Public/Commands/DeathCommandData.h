@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "CommandData.h"
 
-class JUNO_API FDeathCommandData : public FCommandData
+class JUNO_API FDeathCommandData final : public FCommandData
 {
 public:
     explicit FDeathCommandData(FPiece* InPiece);

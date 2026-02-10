@@ -19,7 +19,7 @@ class FCommandData;
 /**
  * This class mocks a client.
  */
-class JUNO_API FVisualization
+class JUNO_API FVisualization final
 {
 public:
     explicit FVisualization(

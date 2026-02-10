@@ -8,7 +8,7 @@
 /**
  * Used to simulate/mock the grid on the server.
  */
-class JUNO_API FGrid
+class JUNO_API FGrid final
 {
 public:
     explicit FGrid(
