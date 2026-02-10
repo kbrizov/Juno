@@ -8,11 +8,14 @@
 class JUNO_API FAttackCommand final : public FCommand
 {
 public:
-	explicit FAttackCommand(APieceVisual* InAttacker, APieceVisual* InTarget);
-	virtual ~FAttackCommand() = default;
+    explicit FAttackCommand(
+        APieceVisual* InAttacker,
+        APieceVisual* InTarget);
 
-	virtual void Execute(float InDeltaTime) override;
+    virtual ~FAttackCommand() = default;
+
+    virtual void Execute(float InDeltaTime) override;
 
 private:
-	APieceVisual* Target;
+    APieceVisual* Target;
 };

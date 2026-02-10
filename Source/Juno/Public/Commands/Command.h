@@ -6,9 +6,9 @@
 
 enum class ECommandStatus
 {
-	Pending,
-	InProgress,
-	Completed
+    Pending,
+    InProgress,
+    Completed
 };
 
 class APieceVisual;
@@ -16,32 +16,32 @@ class APieceVisual;
 class JUNO_API FCommand
 {
 public:
-	virtual ~FCommand() = default;
+    virtual ~FCommand() = default;
 
-	virtual void Execute(float InDeltaTime) = 0;
+    virtual void Execute(float InDeltaTime) = 0;
 
-	bool IsPending() const;
-	bool IsInProgress() const;
-	bool IsCompleted() const;
+    bool IsPending() const;
+    bool IsInProgress() const;
+    bool IsCompleted() const;
 
 protected:
-	APieceVisual* Piece;
-	ECommandStatus Status;
+    APieceVisual* Piece;
+    ECommandStatus Status;
 
-	FCommand(APieceVisual* InPiece);
+    explicit FCommand(APieceVisual* InPiece);
 };
 
 inline bool FCommand::IsPending() const
 {
-	return Status == ECommandStatus::Pending;
+    return Status == ECommandStatus::Pending;
 }
 
 inline bool FCommand::IsInProgress() const
 {
-	return Status == ECommandStatus::InProgress;
+    return Status == ECommandStatus::InProgress;
 }
 
 inline bool FCommand::IsCompleted() const
 {
-	return Status == ECommandStatus::Completed;
+    return Status == ECommandStatus::Completed;
 }

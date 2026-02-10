@@ -8,8 +8,8 @@ class FTile;
 
 enum class ETeam
 {
-	Player,
-	Enemy
+    Player,
+    Enemy
 };
 
 /**
@@ -18,66 +18,71 @@ enum class ETeam
 class JUNO_API FPiece
 {
 public:
-	explicit FPiece(const ETeam InTeam, const float InHealth = 1.f, const float InDamage = 1.f, const uint32 InMovementSpeed = 1.f, const uint32 InAttackRange = 1);
+    explicit FPiece(
+        const ETeam InTeam,
+        const float InHealth = 1.f,
+        const float InDamage = 1.f,
+        const uint32 InMovementSpeed = 1.f,
+        const uint32 InAttackRange = 1);
 
-	void MoveTo(FTile* InPosition);
+    void MoveTo(FTile* InPosition);
 
-	void Attack(FPiece* InEnemy) const;
+    void Attack(FPiece* InEnemy) const;
 
-	ETeam GetTeam() const;
+    ETeam GetTeam() const;
 
-	float GetHealth() const;
+    float GetHealth() const;
 
-	float GetDamage() const;
+    float GetDamage() const;
 
-	uint32 GetMovementSpeed() const;
+    uint32 GetMovementSpeed() const;
 
-	uint32 GetAttackRange() const;
+    uint32 GetAttackRange() const;
 
-	const FTile* GetPosition() const;
-	void SetPosition(FTile* InPosition);
+    const FTile* GetPosition() const;
+    void SetPosition(FTile* InPosition);
 
-	void TakeDamage(const float InDamage);
+    void TakeDamage(const float InDamage);
 
-	bool IsDead() const;
+    bool IsDead() const;
 
 private:
-	ETeam Team;
-	float Health;
-	float Damage;
-	uint32 MovementSpeed;
-	uint32 AttackRange;
-	FTile* Position;
+    ETeam Team;
+    float Health;
+    float Damage;
+    uint32 MovementSpeed;
+    uint32 AttackRange;
+    FTile* Position;
 
-	bool IsEnemy(const FPiece* InOther) const;
+    bool IsEnemy(const FPiece* InOther) const;
 };
 
 inline ETeam FPiece::GetTeam() const
 {
-	return Team;
+    return Team;
 }
 
 inline float FPiece::GetHealth() const
 {
-	return Health;
+    return Health;
 }
 
 inline float FPiece::GetDamage() const
 {
-	return Damage;
+    return Damage;
 }
 
 inline uint32 FPiece::GetMovementSpeed() const
 {
-	return MovementSpeed;
+    return MovementSpeed;
 }
 
 inline uint32 FPiece::GetAttackRange() const
 {
-	return AttackRange;
+    return AttackRange;
 }
 
 inline const FTile* FPiece::GetPosition() const
 {
-	return Position;
+    return Position;
 }

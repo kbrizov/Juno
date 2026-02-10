@@ -12,62 +12,66 @@ class FPiece;
 class JUNO_API FTile
 {
 public:
-	explicit FTile(const uint32 InRow = 0, const uint32 InColumn = 0, const float InWeight = 1.f, FPiece* InPiece = nullptr);
+    explicit FTile(
+        const uint32 InRow = 0,
+        const uint32 InColumn = 0,
+        const float InWeight = 1.f,
+        FPiece* InPiece = nullptr);
 
-	uint32 GetRow() const;
+    uint32 GetRow() const;
 
-	uint32 GetColumn() const;
+    uint32 GetColumn() const;
 
-	float GetWeight() const;
-	void SetWeight(const float InWeight);
+    float GetWeight() const;
+    void SetWeight(const float InWeight);
 
-	FPiece* GetPiece() const;
-	void SetPiece(FPiece* InPiece);
+    FPiece* GetPiece() const;
+    void SetPiece(FPiece* InPiece);
 
-	void Clear();
-	FVector2D ToVector2D() const;
+    void Clear();
+    FVector2D ToVector2D() const;
 
-	bool IsEmpty() const;
+    bool IsEmpty() const;
 
-	bool operator<(const FTile& InOther) const;
-	bool operator>(const FTile& InOther) const;
-	bool operator==(const FTile& InOther) const;
-	bool operator!=(const FTile& InOther) const;
+    bool operator<(const FTile& InOther) const;
+    bool operator>(const FTile& InOther) const;
+    bool operator==(const FTile& InOther) const;
+    bool operator!=(const FTile& InOther) const;
 
 private:
-	uint32 Row;
-	uint32 Column;
-	float Weight;
-	float CachedWeight;
-	FPiece* Piece;
+    uint32 Row;
+    uint32 Column;
+    float Weight;
+    float CachedWeight;
+    FPiece* Piece;
 };
 
 inline uint32 FTile::GetRow() const
 {
-	return Row;
+    return Row;
 }
 
 inline uint32 FTile::GetColumn() const
 {
-	return Column;
+    return Column;
 }
 
 inline float FTile::GetWeight() const
 {
-	return Weight;
+    return Weight;
 }
 
 inline void FTile::SetWeight(const float InWeight)
 {
-	Weight = InWeight;
+    Weight = InWeight;
 }
 
 inline FPiece* FTile::GetPiece() const
 {
-	return Piece;
+    return Piece;
 }
 
 inline bool FTile::IsEmpty() const
 {
-	return Piece == nullptr;
+    return Piece == nullptr;
 }

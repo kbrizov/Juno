@@ -8,5 +8,5 @@
 class JUNO_API FDeathCommandData : public FCommandData
 {
 public:
-	explicit FDeathCommandData(FPiece* InPiece);
+    explicit FDeathCommandData(FPiece* InPiece);
 };

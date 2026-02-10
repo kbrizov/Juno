@@ -8,15 +8,17 @@
 class FAttackCommandData final : public FCommandData
 {
 public:
-	explicit FAttackCommandData(FPiece* InAttacker, FPiece* InTarget);
+    explicit FAttackCommandData(
+        FPiece* InAttacker,
+        FPiece* InTarget);
 
-	FPiece* GetTarget() const;
+    FPiece* GetTarget() const;
 
 private:
-	FPiece* Target;
+    FPiece* Target;
 };
 
 inline FPiece* FAttackCommandData::GetTarget() const
 {
-	return Target;
+    return Target;
 }

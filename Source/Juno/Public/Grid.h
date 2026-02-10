@@ -11,70 +11,87 @@
 class JUNO_API FGrid
 {
 public:
-	explicit FGrid(const uint32 InRows = 8, const uint32 InColumns = 8);
+    explicit FGrid(
+        const uint32 InRows = 8,
+        const uint32 InColumns = 8);
 
-	uint32 GetRows() const;
-	uint32 GetColumns() const;
+    uint32 GetRows() const;
+    uint32 GetColumns() const;
 
-	TArray<FTile>& operator[](const uint32 Index);
-	const TArray<FTile>& operator[](const uint32 Index) const;
+    TArray<FTile>& operator[](const uint32 Index);
+    const TArray<FTile>& operator[](const uint32 Index) const;
 
-	/**
-	 * Finds a path in range (Start, End). Uses A*.
-	 */
-	TArray<const FTile*> FindPath(
-		const FTile* InStart,
-		const FTile* InEnd,
-		const uint32 InAcceptanceRadius = 0,
-		TFunction<float(const FTile&, const FTile&)> InDistanceHeuristic = &FGrid::CalculateEuclideanDistance) const;
+    /**
+     * Finds a path in range (Start, End). Uses A*.
+     */
+    TArray<const FTile*> FindPath(
+        const FTile* InStart,
+        const FTile* InEnd,
+        const uint32 InAcceptanceRadius = 0,
+        TFunction<float(const FTile&, const FTile&)> InDistanceHeuristic = &FGrid::CalculateEuclideanDistance) const;
 
 private:
-	uint32 Rows;
-	uint32 Columns;
-	TArray<TArray<FTile>> Tiles;
+    uint32 Rows;
+    uint32 Columns;
+    TArray<TArray<FTile>> Tiles;
 
-	TArray<const FTile*> GetTileNeighbors(const FTile& InTile) const;
+    TArray<const FTile*> GetTileNeighbors(const FTile& InTile) const;
 
-	TArray<const FTile*> GetTileNeighbors(const uint32 InRow, const uint32 InColumn) const;
+    TArray<const FTile*> GetTileNeighbors(
+        const uint32 InRow,
+        const uint32 InColumn) const;
 
-	bool IsTileInRange(const uint32 InTileRow, const uint32 InTileColumn) const;
+    bool IsTileInRange(
+        const uint32 InTileRow,
+        const uint32 InTileColumn) const;
 
-	bool IsRowInRange(const uint32 InRow) const;
+    bool IsRowInRange(const uint32 InRow) const;
 
-	bool IsColumnInRange(const uint32 InColumn) const;
+    bool IsColumnInRange(const uint32 InColumn) const;
 
-	TMap<const FTile*, const FTile*> CalculatePathUsingAStar(const FTile* InStart, const FTile* InEnd, TFunction<float(const FTile&, const FTile&)> InDistanceHeuristic) const;
+    TMap<const FTile*, const FTile*> CalculatePathUsingAStar(
+        const FTile* InStart,
+        const FTile* InEnd,
+        TFunction<float(const FTile&, const FTile&)> InDistanceHeuristic) const;
 
-	TMap<const FTile*, float> CalculateInitialCosts() const;
+    TMap<const FTile*, float> CalculateInitialCosts() const;
 
-	TArray<const FTile*> BacktrackFromEndToStart(const FTile& InEnd, const TMap<const FTile*, const FTile*>& InAStarOutput) const;
+    TArray<const FTile*> BacktrackFromEndToStart(
+        const FTile& InEnd,
+        const TMap<const FTile*, const FTile*>& InAStarOutput) const;
 
-	static float CalculateManhattanDistance(const FTile& A, const FTile& B);
+    static float CalculateManhattanDistance(
+        const FTile& A,
+        const FTile& B);
 
-	static float CalculateEuclideanDistance(const FTile& A, const FTile& B);
+    static float CalculateEuclideanDistance(
+        const FTile& A,
+        const FTile& B);
 };
 
 inline uint32 FGrid::GetRows() const
 {
-	return Rows;
+    return Rows;
 }
 
 inline uint32 FGrid::GetColumns() const
 {
-	return Columns;
+    return Columns;
 }
 
-inline bool FGrid::IsTileInRange(const uint32 InTileRow, const uint32 InTileColumn) const
+inline bool FGrid::IsTileInRange(
+    const uint32 InTileRow,
+    const uint32 InTileColumn) const
 {
-	return IsRowInRange(InTileRow) && IsColumnInRange(InTileColumn);
+    return IsRowInRange(InTileRow) && IsColumnInRange(InTileColumn);
 }
 
 inline bool FGrid::IsRowInRange(const uint32 InRow) const
 {
-	return InRow < Rows;
+    return InRow < Rows;
 }
 
 inline bool FGrid::IsColumnInRange(const uint32 InColumn) const
 {
-	return InColumn < Columns;
+    return InColumn < Columns;
 }

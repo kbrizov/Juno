@@ -9,18 +9,18 @@
 UCLASS(Abstract)
 class JUNO_API APieceVisual : public AActor
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	APieceVisual();
+    APieceVisual();
 
-	UFUNCTION(BlueprintNativeEvent)
-	void Attack(const APieceVisual* InOther);
+    UFUNCTION(BlueprintNativeEvent)
+    void Attack(const APieceVisual* InOther);
 
-	UFUNCTION(BlueprintNativeEvent)
-	void Die();
+    UFUNCTION(BlueprintNativeEvent)
+    void Die();
 
 private:
-	UPROPERTY(EditDefaultsOnly)
-	TObjectPtr<UStaticMeshComponent> Mesh;
+    UPROPERTY(EditDefaultsOnly)
+    TObjectPtr<UStaticMeshComponent> Mesh;
 };

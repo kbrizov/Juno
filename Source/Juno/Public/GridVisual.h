@@ -13,24 +13,26 @@ class FTile;
 UCLASS(Abstract)
 class JUNO_API AGridVisual : public AActor
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	AGridVisual();
+    AGridVisual();
 
-	void Initialize(const FGrid& InGrid);
+    void Initialize(const FGrid& InGrid);
 
-	TArray<TObjectPtr<ATileVisual>>& operator[](const uint32 Index);
-	const TArray<TObjectPtr<ATileVisual>>& operator[](const uint32 Index) const;
+    TArray<TObjectPtr<ATileVisual>>& operator[](const uint32 Index);
+    const TArray<TObjectPtr<ATileVisual>>& operator[](const uint32 Index) const;
 
 private:
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<ATileVisual> DarkTileClass;
+    UPROPERTY(EditDefaultsOnly)
+    TSubclassOf<ATileVisual> DarkTileClass;
 
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<ATileVisual> LightTileClass;
+    UPROPERTY(EditDefaultsOnly)
+    TSubclassOf<ATileVisual> LightTileClass;
 
-	TArray<TArray<TObjectPtr<ATileVisual>>> Tiles;
+    TArray<TArray<TObjectPtr<ATileVisual>>> Tiles;
 
-	ATileVisual* SpawnTileVisual(UWorld& InWorld, const FTile& InTile);
+    ATileVisual* SpawnTileVisual(
+        UWorld& InWorld,
+        const FTile& InTile);
 };

@@ -4,50 +4,55 @@
 #include "Tile.h"
 
 FPiece::FPiece(const ETeam InTeam, const float InHealth, const float InDamage, const uint32 InMovementSpeed, const uint32 InAttackRange)
-	: Team(InTeam), Health(InHealth), Damage(InDamage), MovementSpeed(InMovementSpeed), AttackRange(InAttackRange), Position(nullptr)
+    : Team(InTeam)
+    , Health(InHealth)
+    , Damage(InDamage)
+    , MovementSpeed(InMovementSpeed)
+    , AttackRange(InAttackRange)
+    , Position(nullptr)
 {
 }
 
 void FPiece::MoveTo(FTile* InPosition)
 {
-	check(InPosition);
-	InPosition->SetPiece(this);
+    check(InPosition);
+    InPosition->SetPiece(this);
 }
 
 void FPiece::Attack(FPiece* InEnemy) const
 {
-	check(InEnemy)
+    check(InEnemy)
 
-	if (!ensure(IsEnemy(InEnemy)))
-	{
-		return;
-	}
+    if (!ensure(IsEnemy(InEnemy)))
+    {
+        return;
+    }
 
-	InEnemy->TakeDamage(GetDamage());
+    InEnemy->TakeDamage(GetDamage());
 }
 
 void FPiece::SetPosition(FTile* InPosition)
 {
-	if (Position != nullptr)
-	{
-		Position->Clear();
-	}
+    if (Position != nullptr)
+    {
+        Position->Clear();
+    }
 
-	Position = InPosition;
+    Position = InPosition;
 }
 
 void FPiece::TakeDamage(const float InDamage)
 {
-	Health = FMath::Max(Health - InDamage, 0.f);
+    Health = FMath::Max(Health - InDamage, 0.f);
 }
 
 bool FPiece::IsDead() const
 {
-	return FMath::IsNearlyZero(Health);
+    return FMath::IsNearlyZero(Health);
 }
 
 bool FPiece::IsEnemy(const FPiece* InOther) const
 {
-	check(InOther);
-	return GetTeam() != InOther->GetTeam();
+    check(InOther);
+    return GetTeam() != InOther->GetTeam();
 }

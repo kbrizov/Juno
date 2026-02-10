@@ -15,41 +15,48 @@ class FTile;
 class JUNO_API FSimulation
 {
 public:
-	explicit FSimulation(TQueue<TUniquePtr<FCommandData>>* InCommandsData, const uint32 InGridRows, const uint32 InGridColumns, const int32 InRandomSeed = 1024);
-	~FSimulation();
+    explicit FSimulation(
+        TQueue<TUniquePtr<FCommandData>>* InCommandsData,
+        const uint32 InGridRows,
+        const uint32 InGridColumns,
+        const int32 InRandomSeed = 1024);
 
-	void FixedUpdate(const float InDeltaTime);
+    ~FSimulation();
 
-	const FGrid* GetGrid() const;
-	const FPiece* GetPlayerPiece() const;
-	const FPiece* GetEnemyPiece() const;
+    void FixedUpdate(const float InDeltaTime);
+
+    const FGrid* GetGrid() const;
+    const FPiece* GetPlayerPiece() const;
+    const FPiece* GetEnemyPiece() const;
 
 private:
-	TQueue<TUniquePtr<FCommandData>>* CommandsData = nullptr;
-	const int32 RandomSeed;
+    TQueue<TUniquePtr<FCommandData>>* CommandsData = nullptr;
+    const int32 RandomSeed;
 
-	TUniquePtr<FGrid> Grid;
-	TUniquePtr<FPiece> PlayerPiece;
-	TUniquePtr<FPiece> EnemyPiece;
+    TUniquePtr<FGrid> Grid;
+    TUniquePtr<FPiece> PlayerPiece;
+    TUniquePtr<FPiece> EnemyPiece;
 
-	void UpdatePlayer();
-	void UpdateEnemy();
-	void UpdatePiece(FPiece& InAttacker, FPiece& InTarget);
+    void UpdatePlayer();
+    void UpdateEnemy();
+    void UpdatePiece(
+        FPiece& InAttacker,
+        FPiece& InTarget);
 
-	FTile* GetRandomEmptyTile(const int32 InSeed) const;
+    FTile* GetRandomEmptyTile(const int32 InSeed) const;
 };
 
 inline const FGrid* FSimulation::GetGrid() const
 {
-	return Grid.Get();
+    return Grid.Get();
 }
 
 inline const FPiece* FSimulation::GetPlayerPiece() const
 {
-	return PlayerPiece.Get();
+    return PlayerPiece.Get();
 }
 
 inline const FPiece* FSimulation::GetEnemyPiece() const
 {
-	return EnemyPiece.Get();
+    return EnemyPiece.Get();
 }

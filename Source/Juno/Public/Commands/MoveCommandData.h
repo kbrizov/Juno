@@ -10,15 +10,17 @@ class FTile;
 class FMoveCommandData final : public FCommandData
 {
 public:
-	FMoveCommandData(FPiece* InPiece, FTile* InNewTile);
+    FMoveCommandData(
+        FPiece* InPiece,
+        FTile* InNewTile);
 
-	FTile* GetNewTile() const;
+    FTile* GetNewTile() const;
 
 private:
-	FTile* NewTile;
+    FTile* NewTile;
 };
 
 inline FTile* FMoveCommandData::GetNewTile() const
 {
-	return NewTile;
+    return NewTile;
 }

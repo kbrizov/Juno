@@ -3,6 +3,6 @@
 #include "Commands/DeathCommandData.h"
 
 FDeathCommandData::FDeathCommandData(FPiece* InPiece)
-	: FCommandData(InPiece, ECommandType::Death)
+    : FCommandData(InPiece, ECommandType::Death)
 {
 }

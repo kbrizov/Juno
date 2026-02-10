@@ -8,8 +8,8 @@
 class JUNO_API FDeathCommand final : public FCommand
 {
 public:
-	explicit FDeathCommand(APieceVisual* InPiece);
-	virtual ~FDeathCommand() = default;
+    explicit FDeathCommand(APieceVisual* InPiece);
+    virtual ~FDeathCommand() = default;
 
-	virtual void Execute(float InDeltaTime) override;
+    virtual void Execute(float InDeltaTime) override;
 };

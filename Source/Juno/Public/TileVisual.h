@@ -11,12 +11,12 @@ class UStaticMeshComponent;
 UCLASS(Abstract)
 class JUNO_API ATileVisual : public AActor
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	ATileVisual();
+    ATileVisual();
 
 private:
-	UPROPERTY(EditDefaultsOnly)
-	TObjectPtr<UStaticMeshComponent> Mesh;
+    UPROPERTY(EditDefaultsOnly)
+    TObjectPtr<UStaticMeshComponent> Mesh;
 };

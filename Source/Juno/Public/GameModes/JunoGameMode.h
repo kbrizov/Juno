@@ -17,63 +17,63 @@ class APieceVisual;
 UCLASS(Abstract)
 class JUNO_API AJunoGameMode : public AGameModeBase
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	AJunoGameMode();
-	virtual void Tick(float DeltaTime) override;
+    AJunoGameMode();
+    virtual void Tick(float DeltaTime) override;
 
 protected:
-	virtual void BeginPlay() override;
-	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+    virtual void BeginPlay() override;
+    virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 private:
-	/**
-	 * This queue is the bridge between the "Simulation" and the "Visualization". It serves as input from the server.
-	 */
-	TQueue<TUniquePtr<FCommandData>> Commands;
+    /**
+     * This queue is the bridge between the "Simulation" and the "Visualization". It serves as input from the server.
+     */
+    TQueue<TUniquePtr<FCommandData>> Commands;
 
-	TUniquePtr<FSimulation> Simulation;
+    TUniquePtr<FSimulation> Simulation;
 
-	TUniquePtr<FVisualization> Visualization;
+    TUniquePtr<FVisualization> Visualization;
 
-	FTimerHandle FixedUpdateTimerHandle;
+    FTimerHandle FixedUpdateTimerHandle;
 
-	UPROPERTY(EditDefaultsOnly)
-	float TimeStepInSeconds = 0.1f; // 100 ms.
+    UPROPERTY(EditDefaultsOnly)
+    float TimeStepInSeconds = 0.1f; // 100 ms.
 
-	UPROPERTY(EditDefaultsOnly)
-	int32 RandomSeed = 1024;
+    UPROPERTY(EditDefaultsOnly)
+    int32 RandomSeed = 1024;
 
-	UPROPERTY(EditDefaultsOnly, Category="Grid")
-	uint32 GridRows = 8;
+    UPROPERTY(EditDefaultsOnly, Category="Grid")
+    uint32 GridRows = 8;
 
-	UPROPERTY(EditDefaultsOnly, Category="Grid")
-	uint32 GridColumns = 8;
+    UPROPERTY(EditDefaultsOnly, Category="Grid")
+    uint32 GridColumns = 8;
 
-	UPROPERTY(EditDefaultsOnly, Category="Grid")
-	TSubclassOf<AGridVisual> GridVisualClass;
+    UPROPERTY(EditDefaultsOnly, Category="Grid")
+    TSubclassOf<AGridVisual> GridVisualClass;
 
-	UPROPERTY()
-	TObjectPtr<AGridVisual> GridVisual;
+    UPROPERTY()
+    TObjectPtr<AGridVisual> GridVisual;
 
-	UPROPERTY(EditDefaultsOnly, Category="Pieces")
-	TSubclassOf<APieceVisual> PlayerVisualClass;
+    UPROPERTY(EditDefaultsOnly, Category="Pieces")
+    TSubclassOf<APieceVisual> PlayerVisualClass;
 
-	UPROPERTY()
-	TObjectPtr<APieceVisual> PlayerVisual;
+    UPROPERTY()
+    TObjectPtr<APieceVisual> PlayerVisual;
 
-	UPROPERTY(EditDefaultsOnly, Category="Pieces")
-	TSubclassOf<APieceVisual> EnemyVisualClass;
+    UPROPERTY(EditDefaultsOnly, Category="Pieces")
+    TSubclassOf<APieceVisual> EnemyVisualClass;
 
-	UPROPERTY()
-	TObjectPtr<APieceVisual> EnemyVisual;
+    UPROPERTY()
+    TObjectPtr<APieceVisual> EnemyVisual;
 
-	void FixedUpdate();
+    void FixedUpdate();
 
-	void InitializeGridVisual(const FGrid& InGrid);
+    void InitializeGridVisual(const FGrid& InGrid);
 
-	void InitializePlayerVisual(const FPiece& InPlayerPiece);
+    void InitializePlayerVisual(const FPiece& InPlayerPiece);
 
-	void InitializeEnemyVisual(const FPiece& InEnemyPiece);
+    void InitializeEnemyVisual(const FPiece& InEnemyPiece);
 };

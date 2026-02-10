@@ -10,17 +10,22 @@ class ATileVisual;
 class JUNO_API FMoveCommand final : public FCommand
 {
 public:
-	explicit FMoveCommand(APieceVisual* InPiece, ATileVisual* InNewTile, const float InDuration, const FVector& InOffset = FVector::Zero());
-	virtual ~FMoveCommand() = default;
+    explicit FMoveCommand(
+        APieceVisual* InPiece,
+        ATileVisual* InNewTile,
+        const float InDuration,
+        const FVector& InOffset = FVector::Zero());
 
-	virtual void Execute(float InDeltaTime) override;
+    virtual ~FMoveCommand() = default;
+
+    virtual void Execute(float InDeltaTime) override;
 
 private:
-	ATileVisual* NewTile;
-	const float Duration;
-	const FVector Offset;
+    ATileVisual* NewTile;
+    const float Duration;
+    const FVector Offset;
 
-	FVector StartLocation;
-	FVector EndLocation;
-	float ElapsedTime;
+    FVector StartLocation;
+    FVector EndLocation;
+    float ElapsedTime;
 };

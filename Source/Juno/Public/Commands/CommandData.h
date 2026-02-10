@@ -6,10 +6,10 @@
 
 enum class ECommandType
 {
-	None,
-	Move,
-	Attack,
-	Death
+    None,
+    Move,
+    Attack,
+    Death
 };
 
 class FPiece;
@@ -17,25 +17,27 @@ class FPiece;
 class JUNO_API FCommandData
 {
 public:
-	virtual ~FCommandData() = 0;
+    virtual ~FCommandData() = 0;
 
-	const FPiece* GetPiece() const;
-	ECommandType GetType() const;
+    const FPiece* GetPiece() const;
+    ECommandType GetType() const;
 
 protected:
-	FCommandData(FPiece* InPiece, const ECommandType InType);
+    FCommandData(
+        FPiece* InPiece,
+        const ECommandType InType);
 
 private:
-	FPiece* Piece = nullptr;
-	ECommandType Type = ECommandType::None;
+    FPiece* Piece = nullptr;
+    ECommandType Type = ECommandType::None;
 };
 
 inline const FPiece* FCommandData::GetPiece() const
 {
-	return Piece;
+    return Piece;
 }
 
 inline ECommandType FCommandData::GetType() const
 {
-	return Type;
+    return Type;
 }

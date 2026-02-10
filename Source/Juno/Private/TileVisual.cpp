@@ -4,7 +4,7 @@
 
 ATileVisual::ATileVisual()
 {
-	PrimaryActorTick.bCanEverTick = false;
-	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
-	RootComponent = Mesh;
+    PrimaryActorTick.bCanEverTick = false;
+    Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
+    RootComponent = Mesh;
 }

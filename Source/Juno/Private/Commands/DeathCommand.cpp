@@ -4,12 +4,12 @@
 #include "PieceVisual.h"
 
 FDeathCommand::FDeathCommand(APieceVisual* InPiece)
-	: FCommand(InPiece)
+    : FCommand(InPiece)
 {
 }
 
 void FDeathCommand::Execute(const float InDeltaTime)
 {
-	Piece->Die();
-	Status = ECommandStatus::Completed;
+    Piece->Die();
+    Status = ECommandStatus::Completed;
 }
